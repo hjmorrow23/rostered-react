@@ -1,0 +1,48 @@
+/* Header */
+
+.App-header {
+  background: linear-gradient(rgba(0, 0, 0, .7), transparent), url('../assets/images/ball-banner.jpg') no-repeat;
+  background-position: center;
+  height: 30vh;
+  padding: 20px;
+  color: white;
+}
+
+.App-title {
+  font-size: 2rem;
+  font-family: "Fjalla One";
+  display: inline-block;
+}
+
+.content {
+  position:relative;
+  padding: 50px 0 1px;
+  font-family: "Noto Sans";
+  text-align: center;
+}
+
+.content__header {
+  margin-bottom: 45px;
+}
+
+.App-nav {
+  float: right;
+  position: relative;
+  font-family: "Noto Sans";
+
+  &__list {
+
+    &__item {
+      display: inline-block;
+      margin-right: 25px;
+
+      a {
+        color: #fff;
+      }
+
+      &__sublist {
+        display: none;
+      }
+    }
+  }
+}
