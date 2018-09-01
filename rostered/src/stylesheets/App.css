@@ -162,7 +162,8 @@ a {
 .App-title {
   font-size: 2rem;
   font-family: "Fjalla One";
-  display: inline-block; }
+  display: inline-block;
+  padding: 7px; }
 
 .content {
   position: relative;
@@ -177,13 +178,52 @@ a {
   float: right;
   position: relative;
   font-family: "Noto Sans"; }
-  .App-nav__list__item {
-    display: inline-block;
-    margin-right: 25px; }
-    .App-nav__list__item a {
-      color: #fff; }
-    .App-nav__list__item__sublist {
-      display: none; }
+  .App-nav__list {
+    position: relative;
+    bottom: 5px;
+    left: 20px; }
+    .App-nav__list__item {
+      display: inline-block;
+      margin-right: 25px;
+      vertical-align: middle;
+      position: relative; }
+      .App-nav__list__item__link {
+        color: #fff; }
+      .App-nav__list__item__profile {
+        background-image: url("../assets/images/profile.jpeg");
+        width: 50px;
+        height: 50px;
+        display: inline-block;
+        background-size: 50px 50px;
+        border-radius: 50%; }
+      .App-nav__list__item__sublist {
+        display: none;
+        position: absolute;
+        bottom: -120px;
+        background-color: #fff;
+        right: 0;
+        border-radius: 5px; }
+        .App-nav__list__item__sublist__item {
+          text-align: center;
+          background-color: white;
+          transition: background-color .35s; }
+          .App-nav__list__item__sublist__item:hover {
+            background-color: rgba(0, 0, 0, 0.12); }
+          .App-nav__list__item__sublist__item:first-child {
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0; }
+          .App-nav__list__item__sublist__item:last-child {
+            border-bottom-left-radius: 5px;
+            border-bottom-right-radius: 5px;
+            border-top-left-radius: 0;
+            border-top-right-radius: 0; }
+          .App-nav__list__item__sublist__item__link {
+            color: black;
+            display: block;
+            padding: 10px;
+            width: 100px; }
 
 /* Search */
 .search__wrapper {
@@ -498,6 +538,30 @@ a {
 
 #delete-league {
   margin: 40px 0; }
+
+.calendar-container {
+  margin: 50px 150px; }
+
+.calendar__modal {
+  position: absolute;
+  background-color: #fff;
+  border-radius: 5px;
+  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.32);
+  -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.32);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.32);
+  padding: 20px;
+  z-index: 1000;
+  left: calc(50% - 80px);
+  top: calc(50% - 85px); }
+  .calendar__modal__close {
+    position: absolute;
+    right: 10px;
+    top: 10px; }
+  .calendar__modal__form {
+    margin-top: 10px; }
+    .calendar__modal__form__field__label, .calendar__modal__form__field__input, .calendar__modal__form__field__textarea {
+      display: block;
+      margin-bottom: 10px; }
 
 .slide-enter {
   transform: translateX(-100%);

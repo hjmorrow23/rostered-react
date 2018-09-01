@@ -1,6 +1,10 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
+import { bindActionCreators} from 'redux';
+// import * as actions from './actions/stats';
+import { connect } from 'react-redux';
+import { getStatsThunk, watchStatUpdatedEvent } from './store';
 import unirest from 'unirest';
-import firebase, { auth, provider } from './firebase.js';
+import firebase, { auth, provider, database, updateFirebase } from './firebase.js';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import logo from './logo.svg';
 import Login from './components/login/login.js';
@@ -16,6 +20,8 @@ import LoginForm from './components/login/loginform.js';
 import SignupForm from './components/login/signupform.js';
 import ResetPasswordEmail from './components/login/resetpasswordemail.js';
 import ResetPasswordConfirm from './components/login/resetpasswordconfirm.js';
+import UserProfile from './components/user/profile.js';
+import CalendarContainer from './components/calendar/calendar.js';
 import {
   BrowserRouter,
   Route,
@@ -28,35 +34,50 @@ import $ from 'jquery';
 import './stylesheets/App.css';
 
 class App extends Component {
+
   constructor(props) {
     super(props);
     this.state = {
-      stats: this.props.stats,
-      leagues: this.props.stats.leagues,
+      // stats: this.props.stats,
+      // leagues: this.props.stats.leagues,
       scorers: [],
       results: [],
-      user: null
+      events: [{
+        title: "Flint League Tourney",
+        start: new Date('August 2, 2018'),
+        end: new Date('August 3, 2018 10:24:00')
+      }],
+      user: null,
+      userData: {
+        username: '',
+        email: '',
+        photoUrl: '',
+        userId: '',
+        role: ''
+      }
     };
   }
 
-  handleLoginChange(e, name, value) {
-    this.setState({
-      [name]: value
-    });
-  }
-
   componentDidMount()  {
-    const dataBase = firebase.database().ref('data');
-    dataBase.on('value', (snapshot) => {
-      let stats = snapshot.val();
-      this.setState({stats:stats});
-    });
-    // auth.onAuthStateChanged((user) => {
-    //   console.log(user);
-    //   if (user) {
-    //     this.setState({ user });
-    //   }
+    // const dataBase = firebase.database().ref('data');
+    // dataBase.on('value', (snapshot) => {
+    //   let stats = snapshot.val();
+    //   this.setState({stats:stats});
     // });
+    auth.onAuthStateChanged((user) => {
+      console.log(user);
+      if (user) {
+        this.setState({ user });
+        this.setState({
+          userData: {
+              username: user.displayName,
+              email: user.email,
+              photoUrl: user.photoUrl,
+              userId: user.uid
+          }
+        });
+      }
+    });
   }
 
   // componentWillMount() {
@@ -73,10 +94,6 @@ class App extends Component {
   // componentWillUnmount() {
   //   this.removeAuthListener();
   // }
-
-  logData () {
-    console.log(this.state.leagues[0].teams[0].rank);
-  }
 
   searchData(e) {
     e.preventDefault();
@@ -159,12 +176,14 @@ class App extends Component {
   }
 
   onStatChange (stats) {
-      this.setState({
-        stats: stats
-      });
-      let data = this.state.stats;
-      firebase.database().ref().set({data});
+      // this.setState({
+      //   stats: stats
+      // });
+      // let data = this.state.stats;
+      // firebase.database().ref().set({data});
+      updateFirebase(stats);
   }
+
 
   login(email, password) {
     auth.signInWithEmailAndPassword(email, password)
@@ -172,6 +191,14 @@ class App extends Component {
       const user = result.user;
       console.log(user);
       this.setState({user:user});
+      this.setState({
+        userData: {
+            username: user.displayName,
+            email: user.email,
+            photoUrl: user.photoUrl,
+            userId: user.uid
+        }
+      });
     }).catch((error) => {
       var errorCode = error.code;
       var errorMessage = error.message;
@@ -196,6 +223,32 @@ class App extends Component {
   addUser(email, username, password1, password2) {
     auth.createUserWithEmailAndPassword(email, password2).
     then((result) => {
+      // var actionCodeSettings = {
+      //   url: 'https://www.example.com/cart?email=user@example.com&cartId=123',
+      //   iOS: {
+      //     bundleId: 'com.example.ios'
+      //   },
+      //   android: {
+      //     packageName: 'com.example.android',
+      //     installApp: true,
+      //     minimumVersion: '12'
+      //   },
+      //   handleCodeInApp: true
+      // };
+      firebase.auth().currentUser.sendEmailVerification()
+        .then(function() {
+          console.log("Verification Email Sent")
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+      firebase.auth().currentUser.updateProfile({
+          displayName: username
+        }).then(function(){
+          console.log("User successfully created");
+        }).catch(function(error) {
+          console.log(error);
+        });
       const user = result.user;
       this.setState({user});
     }).catch((error) => {
@@ -205,8 +258,12 @@ class App extends Component {
     });
   }
 
+  setEvents(events) {
+    this.setState({events:events});
+  }
+
   render() {
-    console.log(this.state.scorers);
+    console.log(this.props);
 
     return (
       <BrowserRouter>
@@ -231,10 +288,12 @@ class App extends Component {
                     transitionAppear={true}
                     transitionAppearTimeout={500}>
                     <Switch key={location.key} location={location}>
-                      <Route path="/home" render={ () => <Dashboard stats={this.state.stats} scorers={this.state.scorers} onStatChange={(stats) => this.onStatChange(stats)} handleLogout={(e) => this.logout(e) } />} />
-                      <Route path="/leagues" render={ ({match}) => <LeagueDashboard key="/leagues" stats={this.state.stats} match={match} onStatChange={(stats) => this.onStatChange(stats)} />} />
-                      <Route path="/teams" render={ ({match}) => <TeamDashboard stats={this.state.stats} match={match} onStatChange={(stats) => this.onStatChange(stats)} />} />
-                      <Route path="/players" render={ () => <PlayerDashboard stats={this.state.stats} onStatChange={(stats) => this.onStatChange(stats)} />} />
+                      <Route path="/home" render={ () => <Dashboard stats={this.props.stats} scorers={this.state.scorers} onStatChange={(stats) => this.onStatChange(stats)} handleLogout={(e) => this.logout(e) } />} />
+                      <Route path="/leagues" render={ ({match}) => <LeagueDashboard key="/leagues" stats={this.props.stats} match={match} onStatChange={(stats) => this.onStatChange(stats)} />} />
+                      <Route path="/teams" render={ ({match}) => <TeamDashboard stats={this.props.stats} match={match} onStatChange={(stats) => this.onStatChange(stats)} />} />
+                      <Route path="/players" render={ () => <PlayerDashboard stats={this.props.stats} onStatChange={(stats) => this.onStatChange(stats)} />} />
+                      <Route path="/schedule" render={ ({match}) => <CalendarContainer stats={this.props.stats} events={this.state.events} setEvents={(events) => this.setEvents(events)} match={match} onStatChange={(stats) => this.onStatChange(stats)} />} />
+                      <Route path="/user/profile" render={ () => <UserProfile user={this.state.user} stats={this.props.stats} onStatChange={(stats) => this.onStatChange(stats)} />} />
                     </Switch>
                   </ReactCSSTransitionGroup>
                 </section>
@@ -268,4 +327,14 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapState = state => ({
+  stats: state
+ })
+const mapDispatch = dispatch => {
+ dispatch(getStatsThunk())
+ watchStatUpdatedEvent(dispatch)
+ return {
+ }
+}
+export default connect(mapState, mapDispatch)(App);
+// export default App;

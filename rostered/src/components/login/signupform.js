@@ -49,7 +49,7 @@ class SignupForm extends React.Component {
   }
 
   signUp(e) {
-    e.preventDefault();
+    // e.preventDefault();
     if(this.state.password1 === this.state.password2) {
       this.props.handleSignup(this.state.email, this.state.username, this.state.password1, this.state.password2);
     } else {
@@ -70,7 +70,7 @@ class SignupForm extends React.Component {
           <input id="password1" onChange={(e) => this.getPassword1(e)} className="login__modal__login-form__input" type="password" />
           <label className="login__modal__login-form__label">Retype Password</label>
           <input id="password2" onChange={(e) => this.getPassword2(e)} className="login__modal__login-form__input" type="password" />
-          <Link exact to="/" onClick={(e) => this.signUp(e) }><input id="submit-button" className="login__modal__login-form__button" type="submit" /></Link>
+          <Link exact to="/home" onClick={(e) => this.signUp(e) }><input id="submit-button" className="login__modal__login-form__button" type="submit" /></Link>
         </form>
       </div>
     );
