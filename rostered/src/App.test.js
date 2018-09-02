@@ -5,7 +5,7 @@ import rosteredData from './datasample.js';
 import ReactDOM from 'react-dom';
 import unirest from 'unirest';
 // import firebase, { auth, provider } from './firebase.js';
-// import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 // import logo from './logo.svg';
 // import Login from './components/login/login.js';
 // import Search from  './components/search.js';
