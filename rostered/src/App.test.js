@@ -3,7 +3,7 @@ import App from './App';
 import renderer from 'react-test-renderer';
 import rosteredData from './datasample.js';
 import ReactDOM from 'react-dom';
-// import unirest from 'unirest';
+import unirest from 'unirest';
 // import firebase, { auth, provider } from './firebase.js';
 // import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 // import logo from './logo.svg';
