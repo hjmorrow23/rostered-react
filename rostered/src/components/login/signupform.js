@@ -4,7 +4,8 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import {
   BrowserRouter,
   Route,
-  Link
+  Link,
+  withRouter
 } from 'react-router-dom';
 
 class SignupForm extends React.Component {
@@ -12,6 +13,7 @@ class SignupForm extends React.Component {
     super(props);
     this.state = {
       email: "",
+      name: "",
       username: "",
       role: "",
       password1: "",
@@ -24,6 +26,14 @@ class SignupForm extends React.Component {
     let email = e.target.value;
     this.setState({
       email: email
+    });
+
+  }
+
+  getName(e) {
+    let name = e.target.value;
+    this.setState({
+      name: name
     });
 
   }
@@ -57,12 +67,23 @@ class SignupForm extends React.Component {
   }
 
   signUp(e) {
-    // e.preventDefault();
-    if(this.state.password1 === this.state.password2) {
-      this.props.handleSignup(this.state.email, this.state.username, this.state.role, this.state.password1, this.state.password2);
-    } else {
-      alert("passwords don't match");
-    }
+    e.preventDefault();
+    // if(this.state.password1 === this.state.password2) {
+      this.props.handleSignup(this.state.email, this.state.name, this.state.username);
+      switch (this.state.role) {
+        case "player":
+          this.props.history.push('/leaguesetup');
+          break;
+        case "coach":
+          this.props.history.push('/leaguesetup');
+          break;
+        case "league-admin":
+          this.props.history.push('/leaguesetup');
+          break;
+      }
+    // } else {
+    //   alert("passwords don't match");
+    // }
   }
 
   render() {
@@ -72,18 +93,20 @@ class SignupForm extends React.Component {
         <form className="login__modal__login-form">
           <label className="login__modal__login-form__label">Email</label>
           <input id="email" onChange={(e) => this.getEmail(e)} className="login__modal__login-form__input" type="text" />
+          <label className="login__modal__login-form__label">Name</label>
+          <input id="name" onChange={(e) => this.getName(e)} className="login__modal__login-form__input" type="text" />
           <label className="login__modal__login-form__label">Username</label>
           <input id="username" onChange={(e) => this.getUsername(e)} className="login__modal__login-form__input" type="text" />
-          <label className="login__modal__login-form__label">Which best describes your role in the league?</label>
-          <select id="username" onChange={(e) => this.getRole(e)} className="login__modal__login-form__input">
+          {/* <label className="login__modal__login-form__label">Which best describes your role in the league?</label>
+          <select id="role" onChange={(e) => this.getRole(e)} className="login__modal__login-form__input">
             <option value="player">Player</option>
             <option value="coach">Coach</option>
             <option value="league-admin">League Administrator</option>
           </select>
-          <label className="login__modal__login-form__label">Password</label>
+           <label className="login__modal__login-form__label">Password</label>
           <input id="password1" onChange={(e) => this.getPassword1(e)} className="login__modal__login-form__input" type="password" />
           <label className="login__modal__login-form__label">Retype Password</label>
-          <input id="password2" onChange={(e) => this.getPassword2(e)} className="login__modal__login-form__input" type="password" />
+          <input id="password2" onChange={(e) => this.getPassword2(e)} className="login__modal__login-form__input" type="password" /> */}
           <Link exact to="/home" onClick={(e) => this.signUp(e) }><input id="submit-button" className="login__modal__login-form__button" type="submit" /></Link>
         </form>
       </div>
@@ -91,4 +114,4 @@ class SignupForm extends React.Component {
   }
 }
 
-export default SignupForm;
+export default withRouter(SignupForm);

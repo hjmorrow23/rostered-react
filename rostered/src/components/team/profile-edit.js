@@ -2,12 +2,19 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import $ from 'jquery';
 import Header from '../header.js';
+import ImageUpload from '../imageUpload.js';
 import {
   Route,
   Link
 } from 'react-router-dom';
 
 class TeamProfileEdit extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      photoUrl: ""
+    };
+  }
 
   showAdd (e) {
     e.preventDefault();
@@ -23,13 +30,19 @@ class TeamProfileEdit extends React.Component {
     $(".js-delete-team").fadeIn();
   }
 
+  getPhotoUrl(url) {
+    this.setState({photoUrl: url});
+  }
+
   addPlayer (e) {
     let players = this.props.team.players;
     let newPlayer = document.getElementById("newPlayer").value;
     let name = this.props.team.name.replace(/\s/g, '');
     let leagueName = this.props.leagueName;
     let player = {
-      name: newPlayer
+      name: newPlayer,
+      score: "",
+      photoUrl: "https://res.cloudinary.com/hjmorrow23/image/upload/v1541617700/rostered/profiles/default.jpg",
     };
     players.push(player);
     this.props.handlePlayerEdits(e, players);
@@ -59,7 +72,8 @@ class TeamProfileEdit extends React.Component {
     let createdDate = document.getElementById('team-created-date').value;
     let leagueName = this.props.leagueName;
     let urlTitle = title.replace(/\s/g, '');
-    this.props.onClick(e, title);
+    let photoUrl = this.state.photoUrl;
+    this.props.onClick(e, title, photoUrl);
     this.props.history.push(`/teams/profile/${leagueName}/${urlTitle}`);
   }
 
@@ -82,9 +96,7 @@ class TeamProfileEdit extends React.Component {
           <div className="profile">
             <div className="profile__left">
               <h1 className="profile__left__title">{team.name}</h1>
-              <div className="profile__left__image">
-                <img src="http://lorempixel.com/200/200/sports" />
-              </div>
+              <ImageUpload onClick={(url) => this.getPhotoUrl(url)} url={team.photoUrl} currentUser={this.props.currentUser} />
             </div>
             <div className="profile__right">
               <div className="profile__right__links">

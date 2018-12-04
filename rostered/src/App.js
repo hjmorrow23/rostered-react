@@ -18,6 +18,8 @@ import TeamDashboard from './components/team/dashboard.js';
 import PlayerDashboard from './components/player/dashboard.js';
 import LoginForm from './components/login/loginform.js';
 import SignupForm from './components/login/signupform.js';
+import LeagueSetup from './components/login/leaguesetup.js';
+import LeagueAdd from './components/login/leagueadd.js';
 import ResetPasswordEmail from './components/login/resetpasswordemail.js';
 import ResetPasswordConfirm from './components/login/resetpasswordconfirm.js';
 import UserProfile from './components/user/profile.js';
@@ -30,7 +32,9 @@ import {
   Route,
   Redirect,
   Switch,
-  withRouter
+  withRouter,
+  NavLink,
+  Link
 } from 'react-router-dom';
 
 import $ from 'jquery';
@@ -250,6 +254,7 @@ class App extends Component {
         let users = snapshot.val();
         users.map((userData, i) => {
           if(userData.userId === this.state.user.uid) {
+            console.log(userData);
             this.setState({currentUser: userData});
           }
         });
@@ -276,6 +281,7 @@ class App extends Component {
         this.setState({
           user: null
         });
+        this.setState({userData: ""});
       }).catch((error) => {
         var errorCode = error.code;
         var errorMessage = error.message;
@@ -377,21 +383,25 @@ class App extends Component {
     firebase.database().ref('events').set(events);
   }
 
-  addUser(email, username, role, password1, password2) {
-    auth.createUserWithEmailAndPassword(email, password2).
+  getGeneralUserInfo(email, name, username) {
+    this.setState({
+      userData: {
+          username: username,
+          email: email,
+          name: name,
+          role: "league-admin",
+          photoUrl: "https://res.cloudinary.com/hjmorrow23/image/upload/v1541617700/rostered/profiles/default.jpg",
+          userId: "",
+          userLeagues: [],
+          userTeams: []
+      }
+    });
+  }
+
+  addUser(password, creating, stats, leagueName, leagueId, teamName, teamId, leagueIndex, teamIndex) {
+    console.log({password, creating, stats, leagueName, leagueId});
+    auth.createUserWithEmailAndPassword(this.state.userData.email, password).
     then((result) => {
-      // var actionCodeSettings = {
-      //   url: 'https://www.example.com/cart?email=user@example.com&cartId=123',
-      //   iOS: {
-      //     bundleId: 'com.example.ios'
-      //   },
-      //   android: {
-      //     packageName: 'com.example.android',
-      //     installApp: true,
-      //     minimumVersion: '12'
-      //   },
-      //   handleCodeInApp: true
-      // };
       firebase.auth().currentUser.sendEmailVerification()
         .then(function() {
           console.log("Verification Email Sent")
@@ -400,28 +410,67 @@ class App extends Component {
           console.log(error);
         });
       firebase.auth().currentUser.updateProfile({
-          displayName: username
+          displayName: this.state.userData.username
         }).then(function(){
           console.log("User successfully created");
         }).catch(function(error) {
           console.log(error);
         });
       const user = result.user;
+      console.log(user);
       this.setState({user});
       this.setState({
         userData: {
             username: user.displayName,
             email: user.email,
-            role: role,
+            role: this.state.userData.role,
             photoUrl: "https://res.cloudinary.com/hjmorrow23/image/upload/v1541617700/rostered/profiles/default.jpg",
-            userId: user.uid
+            userId: user.uid,
+            userLeagues: [
+              {
+                leagueName: leagueName,
+                leagueId: leagueId
+              }
+            ],
+            userTeams: [
+              {
+                teamName: teamName,
+                teamId: teamId
+              }
+            ]
         }
       });
+      if(creating) {
+        console.log(stats.leagues[stats.leagues.length - 1]);
+        stats.leagues[stats.leagues.length - 1].leagueAdmin = {
+          id: user.uid,
+          email: user.email
+        };
+        console.log(stats);
+        this.onStatChange(stats);
+        this.setState({currentUser: this.state.userData});
+      } else {
+        stats.leagues[leagueIndex].teams[teamIndex].coach = {
+          id: user.uid,
+          email: user.email
+        };
+        this.onStatChange(stats);
+      }
+      firebase.database().ref('users').once('value',(snapshot) => {
+        let users = snapshot.val();
+        users.push(this.state.userData);
+        firebase.database().ref('users').set(users);
+      });
+
     }).catch((error) => {
       var errorCode = error.code;
       var errorMessage = error.message;
       console.log(errorCode + " " + errorMessage);
     });
+  }
+
+  handleSignupLeagueCreation() {
+
   }
 
   onUpdateUser(currentUser) {
@@ -464,12 +513,33 @@ class App extends Component {
     this.setState({events:newEvents});
   }
 
+  openMobileNav(e) {
+    e.preventDefault();
+    $('.Mobile-nav').addClass('visible');
+  }
+
+  closeMobileNav(e) {
+    e.preventDefault();
+    $('.Mobile-nav').removeClass('visible');
+  }
+
+  hideMobileNav(e) {
+    $('.Mobile-nav').removeClass('visible');
+  }
+
   render() {
     console.log(this.props);
-    sessionStorage.setItem('sessionData', JSON.stringify(this.props.stats));
-    let cachedData = JSON.parse(sessionStorage.getItem('sessionData'));
 
-    console.log(cachedData);
+    let stats;
+    let currentUser;
+    if (this.state.currentUser.email !== '') {
+      currentUser = this.state.currentUser;
+      sessionStorage.setItem('sessionUser', JSON.stringify(currentUser));
+      console.log(currentUser);
+    } else {
+      currentUser = JSON.parse(sessionStorage.getItem('sessionUser'));
+      console.log(currentUser);
+    }
 
     return (
       <BrowserRouter>
@@ -478,7 +548,7 @@ class App extends Component {
           <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossOrigin="anonymous" />
           {this.state.user ?
             <div className="container">
-              <Header currentUser={this.state.currentUser} handleLogout={(e) => this.logout(e)}/>
+              <Header currentUser={currentUser} openMobileNav={(e) => this.openMobileNav(e) } handleLogout={(e) => this.logout(e)}/>
               <section className="content">
                 <div className="search__wrapper">
                   <input type="text" className="search__input" onKeyDown={(e) => this.searchData(e)} />
@@ -494,12 +564,12 @@ class App extends Component {
                     transitionAppear={true}
                     transitionAppearTimeout={500}>
                     <Switch key={location.key} location={location}>
-                      <Route path="/home" render={ () => <Dashboard currentUser={this.state.currentUser} stats={this.props.stats} scorers={this.state.scorers} onStatChange={(stats) => this.onStatChange(stats)} handleLogout={(e) => this.logout(e) } />} />
-                      <Route path="/leagues" render={ ({match}) => <LeagueDashboard key="/leagues" currentUser={this.state.currentUser} stats={this.props.stats} match={match} onStatChange={(stats) => this.onStatChange(stats)} />} />
-                      <Route path="/teams" render={ ({match}) => <TeamDashboard currentUser={this.state.currentUser} stats={this.props.stats} match={match} onStatChange={(stats) => this.onStatChange(stats)} />} />
-                      <Route path="/players" render={ () => <PlayerDashboard currentUser={this.state.currentUser} stats={this.props.stats} onStatChange={(stats) => this.onStatChange(stats)} />} />
-                      <Route path="/schedule" render={ ({match}) => <CalendarContainer user={this.state.user} currentUser={this.state.currentUser} user={this.state.user} stats={this.props.stats} events={this.state.events} setEvents={(events) => this.setEvents(events)} match={match} onStatChange={(stats) => this.onStatChange(stats)} />} />
-                      <Route path="/user/profile" render={ () => <UserProfile currentUser={this.state.currentUser} user={this.state.user} stats={this.props.stats} onUpdateUser={(currentUser) => this.onUpdateUser(currentUser)} />} />
+                      <Route path="/home" render={ () => <Dashboard currentUser={currentUser} stats={this.props.stats} scorers={this.state.scorers} onStatChange={(stats) => this.onStatChange(stats)} handleLogout={(e) => this.logout(e) } />} />
+                      <Route path="/leagues" render={ ({match}) => <LeagueDashboard key="/leagues" currentUser={currentUser} stats={this.props.stats} match={match} onStatChange={(stats) => this.onStatChange(stats)} />} />
+                      <Route path="/teams" render={ ({match}) => <TeamDashboard currentUser={currentUser} stats={this.props.stats} match={match} onStatChange={(stats) => this.onStatChange(stats)} />} />
+                      <Route path="/players" render={ () => <PlayerDashboard currentUser={currentUser} stats={this.props.stats} onStatChange={(stats) => this.onStatChange(stats)} />} />
+                      <Route path="/schedule" render={ ({match}) => <CalendarContainer user={this.state.user} currentUser={currentUser} user={this.state.user} stats={this.props.stats} events={this.state.events} setEvents={(events) => this.setEvents(events)} match={match} onStatChange={(stats) => this.onStatChange(stats)} />} />
+                      <Route path="/user/profile" render={ () => <UserProfile currentUser={currentUser} user={this.state.user} stats={this.props.stats} onUpdateUser={(currentUser) => this.onUpdateUser(currentUser)} />} />
                     </Switch>
                   </ReactCSSTransitionGroup>
                 </section>
@@ -517,7 +587,9 @@ class App extends Component {
                   transitionAppearTimeout={500}>
                   <Switch key={location.key} location={location}>
                     <Route exact path="/" render={ () => <LoginForm user={this.state.user} handleLogin={(email, password) => this.login(email, password) }/>} />
-                    <Route path="/signup" render={() => <SignupForm handleSignup={(email, username, role, password1, password2) => this.addUser(email, username, role, password1, password2) } />} />
+                    <Route path="/signup" render={({match}) => <SignupForm match={match} handleSignup={(email, name, username) => this.getGeneralUserInfo(email, name, username) } />} />
+                    <Route path="/leaguesetup" render={({match}) => <LeagueSetup match={match} />} />
+                    <Route path="/leagueadd" render={({match}) => <LeagueAdd match={match} stats={this.props.stats} handleSignup={(password, creating, stats, leagueName, leagueId, teamName, teamId, leagueIndex, teamIndex) => this.addUser(password, creating, stats, leagueName, leagueId, teamName, teamId, leagueIndex, teamIndex) }/>} />
                     <Route path="/resetpassword" render={() => <ResetPasswordEmail />} />
                     <Route path="/resetconfirm" render={() => <ResetPasswordConfirm />} />
                   </Switch>
@@ -525,7 +597,22 @@ class App extends Component {
               </div>
             </div>
           }
-
+          <nav className="Mobile-nav">
+            <a href="" className="Mobile-nav--close" onClick={(e) => this.closeMobileNav(e) }>
+              <i className="fa fa-times"></i>
+            </a>
+            <ul className="Mobile-nav__list">
+              <li className="Mobile-nav__list__item"><NavLink exact to="/home" onClick={(e) => this.hideMobileNav(e) } className="Mobile-nav__list__item__link">Home</NavLink></li>
+              <li className="Mobile-nav__list__item"><NavLink exact to="/leagues" onClick={(e) => this.hideMobileNav(e) } className="Mobile-nav__list__item__link">Leagues</NavLink></li>
+              <li className="Mobile-nav__list__item"><NavLink exact to="/teams" onClick={(e) => this.hideMobileNav(e) } className="Mobile-nav__list__item__link">Teams</NavLink></li>
+              {
+                this.state.currentUser.role === "admin" || this.state.currentUser.role === "league-admin" || this.state.currentUser.role === "coach" ?
+                  <li className="Mobile-nav__list__item"><NavLink exact to="/players" onClick={(e) => this.hideMobileNav(e) } className="Mobile-nav__list__item__link">Players</NavLink></li>
+                : ""
+              }
+              <li className="Mobile-nav__list__item"><NavLink exact to="/schedule" onClick={(e) => this.hideMobileNav(e) } className="Mobile-nav__list__item__link">Schedule</NavLink></li>
+            </ul>
+          </nav>
         </div>
       )}/>
       </BrowserRouter>

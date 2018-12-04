@@ -29,7 +29,7 @@ class LeagueProfile extends React.Component {
         this.props.onStatChange(stats);
       }
 
-      handleChangeStats (e, name, date) {
+      handleChangeStats (e, name, date, photoUrl) {
         e.preventDefault();
         this.setState({
           isEditing: !this.state.isEditing
@@ -44,6 +44,7 @@ class LeagueProfile extends React.Component {
         }
         stats.leagues[id].name = name;
         stats.leagues[id].createdDate = date;
+        stats.leagues[id].photoUrl = photoUrl;
         console.log(stats.leagues[id]);
         this.props.onStatChange(stats);
       }
@@ -101,7 +102,7 @@ class LeagueProfile extends React.Component {
             history={this.props.history}
             match={this.props.match}
             handleTeamEdits={(e, teams) => this.handleTeamEdits(e, teams)}
-            onClick={(e, name, date) => this.handleChangeStats(e, name, date)}
+            onClick={(e, name, date, photoUrl) => this.handleChangeStats(e, name, date, photoUrl)}
             onEditToggle={(e) => this.editToggle(e)}
             onDeletedLeague={(e) => this.updateDeletedLeague(e)}
           />;

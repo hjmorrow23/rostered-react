@@ -8,6 +8,12 @@
   &__left {
     width: 40%;
 
+    @media (max-width: 768px) {
+      width: 100%;
+      margin: 0 auto 20px;
+      display: block;
+    }
+
     &__title {
       font-size: 18px;
       margin-bottom: 60px;
@@ -15,6 +21,7 @@
     &__image {
       img {
         border-radius: 50%;
+        width: 200px;
       }
     }
   }
@@ -22,6 +29,14 @@
   &__right {
     width: 60%;
     vertical-align: top;
+    margin-bottom: 150px;
+
+    @media (max-width: 768px) {
+      width: 80%;
+      margin: 0 auto 20px;
+      display: block;
+      position: relative;
+    }
 
     &__list {
       margin-top: 80px;
@@ -30,12 +45,37 @@
         text-align: left;
         margin-bottom: 20px;
 
+        @media (max-width: 768px) {
+          text-align: center;
+        }
+
         &__title {
           width: 30%;
+
+          @media (max-width: 768px) and (min-width: 425px) {
+            width: 50%;
+          }
+
+          @media (max-width: 424px) {
+            display: block !important;
+            width: 100%;
+            margin-bottom: 15px;
+            font-weight: 600;
+          }
         }
 
         &__data {
           width: 70%;
+
+          @media (max-width: 768px) and (min-width: 425px) {
+            width: 50%;
+          }
+
+          @media (max-width: 424px) {
+            display: block !important;
+            width: 100%;
+            margin-bottom: 30px;
+          }
 
           &__field {
             background: transparent;
@@ -65,6 +105,18 @@
       width: 200px;
       display: inline-block;
       text-align: right;
+
+      @media (max-width: 768px) and (min-width: 425px) {
+        position: absolute;
+        top: -300px;
+        left: 50%;
+      }
+
+      @media (max-width: 424px) {
+        left: 30%;
+        position: absolute;
+        top: -300px;
+      }
 
       &__button {
         color: black;

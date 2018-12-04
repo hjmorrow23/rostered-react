@@ -35,15 +35,17 @@ class TeamDashboardTable extends React.Component {
   render() {
     let myTeams = [];
     if (this.props.currentUser.role === "coach" || this.props.currentUser.role === "player") {
-      this.props.currentUser.userTeams.map((userTeam, i) => {
-        this.props.stats.leagues.map((league,i) => {
-          league.teams.map((team, i) => {
-            if (userTeam.leagueId === team.teamId) {
-              myTeams.push(team);
-            }
-          });
+      if(this.props.currentUser.userTeams) {
+        this.props.currentUser.userTeams.map((userTeam, i) => {
+          this.props.stats.leagues.map((league,i) => {
+            league.teams.map((team, i) => {
+              if (userTeam.leagueId === team.teamId) {
+                myTeams.push(team);
+              }
+            });
+          })
         })
-      })
+      }
     }
 
     return (
@@ -54,7 +56,7 @@ class TeamDashboardTable extends React.Component {
         <div className="panel__body">
           <ul className="panel__list">
           {
-            this.props.currentUser.role === "admin" || this.props.currentUser.role === "leagueAdmin" ?
+            this.props.currentUser.role === "admin" || this.props.currentUser.role === "league-admin"?
               this.props.stats.leagues.map((league, i) => {
                 let leagueName = league.name.replace(/\s/g, '');
                 let leagueId = i;
@@ -73,7 +75,9 @@ class TeamDashboardTable extends React.Component {
                 })
 
               })
-            : this.props.stats.leagues.map((league, i) => {
+            : myTeams.length === 0 ?
+              <li className="panel__list__item"><div className="panel__list__item__title">No Teams have been added yet. Add teams by going to league profile page and editing the league.</div></li>
+              : this.props.stats.leagues.map((league, i) => {
                 let leagueName = league.name.replace(/\s/g, '');
                 let leagueId = i;
 

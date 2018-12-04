@@ -25,7 +25,7 @@ class PlayerProfile extends React.Component {
         });
       }
 
-      handleChangeStats (e, name) {
+      handleChangeStats (e, name, photoUrl) {
         e.preventDefault();
         this.setState({
           isEditing: !this.state.isEditing
@@ -49,6 +49,7 @@ class PlayerProfile extends React.Component {
         }
 
         stats.leagues[leagueId].teams[teamId].players[playerId].name = name;
+        stats.leagues[leagueId].teams[teamId].players[playerId].photoUrl = photoUrl;
         this.props.onStatChange(stats);
       }
 
@@ -106,7 +107,7 @@ class PlayerProfile extends React.Component {
             teamName={teamName}
             history={this.props.history}
             match={this.props.match}
-            onClick={(e, name) => this.handleChangeStats(e, name)}
+            onClick={(e, name, photoUrl) => this.handleChangeStats(e, name, photoUrl)}
             onEditToggle={(e) => this.editToggle(e)}
           />;
         }

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import $ from 'jquery';
 import MyLeagues from './dashboard/myleagues';
+import LeagueStandings from './dashboard/leaguestandings';
 
 class Panel extends React.Component {
 

@@ -36,7 +36,7 @@ class LeagueDashboardTable extends React.Component {
 
   render() {
     let myLeagues = [];
-    if (this.props.currentUser.role === "leagueAdmin" || this.props.currentUser.role === "coach" || this.props.currentUser.role === "player") {
+    if (this.props.currentUser.role === "coach" || this.props.currentUser.role === "player") {
       this.props.currentUser.userLeagues.map((userLeague, i) => {
         this.props.stats.leagues.map((league,i) => {
           if (userLeague.leagueId === league.leagueId) {
@@ -45,6 +45,7 @@ class LeagueDashboardTable extends React.Component {
         })
       })
     }
+    console.log(myLeagues);
 
     return (
       <div className="panel panel__full-width">
@@ -57,7 +58,7 @@ class LeagueDashboardTable extends React.Component {
           <ul className="panel__list">
           {
             //Admin view all leagues
-            this.props.currentUser.role === "admin" ?
+            this.props.currentUser.role === "admin" || this.props.currentUser.role === "league-admin" ?
               this.props.stats.leagues.map((league, i) => {
                 let name = league.name.replace(/\s/g, '');
                 return <li className="panel__list__item"><Link to={{
@@ -67,15 +68,17 @@ class LeagueDashboardTable extends React.Component {
                   }
                 }} className="panel__list__item__title"><i className={league.icon} aria-hidden="true"></i> {league.name}</Link></li>;
               })
-            : myLeagues.map((league, i) => {
-                let name = league.name.replace(/\s/g, '');
-                return <li className="panel__list__item"><Link to={{
-                  pathname: `${this.props.match.url}/profile/${name}`,
-                  state: {
-                    leagueIndex: i
-                  }
-                }} className="panel__list__item__title"><i className={league.icon} aria-hidden="true"></i> {league.name}</Link></li>;
-              })
+            : myLeagues.length === 0 ?
+                <li className="panel__list__item"><div className="panel__list__item__title">You don't have any leagues yet. Hit the plus icon on the top right to create one.</div></li>
+                : myLeagues.map((league, i) => {
+                  let name = league.name.replace(/\s/g, '');
+                  return <li className="panel__list__item"><Link to={{
+                    pathname: `${this.props.match.url}/profile/${name}`,
+                    state: {
+                      leagueIndex: i
+                    }
+                  }} className="panel__list__item__title"><i className={league.icon} aria-hidden="true"></i> {league.name}</Link></li>;
+                })
 
           }
           </ul>

@@ -7,6 +7,13 @@
   box-shadow: 0 1px 3px rgba(0,0,0,0.12);
   border-radius: 5px;
   vertical-align: top;
+  margin-bottom: 20px;
+
+  @media (max-width: 768px) {
+    width: 80%;
+    margin: 0 auto 35px;
+    display: block;
+  }
 
   &__message-wrapper {
     padding: 20px;
@@ -35,6 +42,10 @@
 
 .panel:last-child {
   margin-right: 0;
+
+  @media (max-width: 768px) {
+    margin: 0 auto 35px;
+  }
 }
 
 .panel__header {
@@ -230,5 +241,17 @@
         border-bottom: 2px solid rgba(0,0,0,0.2);
       }
     }
+  }
+
+  &__submit {
+    display: block;
+    background-color: #A3C47F;
+    color: #fff;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    margin: 0 auto 20px;
+    cursor: pointer;
   }
 }

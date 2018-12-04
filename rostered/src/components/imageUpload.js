@@ -10,7 +10,7 @@ class ImageUpload extends React.Component {
     super(props);
 
     this.state = {
-      uploadedFileCloudinaryUrl: this.props.currentUser.photoUrl,
+      uploadedFileCloudinaryUrl: this.props.url,
       uploadedFile: ''
     };
   }

@@ -7,6 +7,8 @@ import Player from './player.js';
 import Search from  '../search.js';
 import Panel from '../panel.js';
 import MyLeagues from './myleagues.js';
+import LeagueStandings from './leaguestandings.js';
+import TopPlayers from './topplayers.js';
 import {
   Route,
   Link,
@@ -121,8 +123,8 @@ class Dashboard extends React.Component {
         <div>
             <h1 className="content__header">Dashboard</h1>
             <Panel title={"My Leagues"} stats={this.props.stats} currentUser={this.props.currentUser} child={<MyLeagues currentUser={this.props.currentUser} stats={this.props.stats} setTitle={() => this.getPanelHeader()} />} />
-            <Panel title={"My Teams"} stats={this.props.stats} currentUser={this.props.currentUser} child={<MyLeagues currentUser={this.props.currentUser} stats={this.props.stats} setTitle={() => this.getPanelHeader()} />} />
-            <Panel title={"Top Scorers"} stats={this.props.stats} currentUser={this.props.currentUser} child={<MyLeagues currentUser={this.props.currentUser} stats={this.props.stats} setTitle={() => this.getPanelHeader()} />} />
+            <Panel title={"Primary League Standings"} stats={this.props.stats} currentUser={this.props.currentUser} child={<LeagueStandings currentUser={this.props.currentUser} stats={this.props.stats} setTitle={() => this.getPanelHeader()} />} />
+            <Panel title={"Top Players"} stats={this.props.stats} currentUser={this.props.currentUser} child={<TopPlayers currentUser={this.props.currentUser} stats={this.props.stats} setTitle={() => this.getPanelHeader()} />} />
         </div>
       );
     }
@@ -134,3 +136,5 @@ Dashboard.propTypes = {
 
 
 export default withRouter(Dashboard);
+
+export { Dashboard };

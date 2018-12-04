@@ -64,12 +64,12 @@ class LeagueProfileView extends React.Component {
             <div className="profile__left">
               <h1 className="profile__left__title">{league.name}</h1>
               <div className="profile__left__image">
-                <img src="http://lorempixel.com/200/200/sports" />
+                <img src={league.photoUrl} />
               </div>
             </div>
             <div className="profile__right">
               {
-                this.props.currentUser.role === "admin" || this.props.currentUser.role === "leagueAdmin" ?
+                this.props.currentUser.role === "admin" || this.props.currentUser.role === "league-admin" ?
                 <div className="profile__right__links">
                   <a href="" className="profile__right__links__button" onClick={(e) => this.menuToggle(e)} ><i className="fa fa-ellipsis-v"></i></a>
                   <ul className="profile__right__links__menu js-profile-options">

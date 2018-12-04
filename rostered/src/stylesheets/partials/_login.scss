@@ -17,6 +17,12 @@
   background-color: #fff;
   border-radius: 5px;
   padding: 20px;
+
+  @media (max-width: 425px) {
+    width: 250px;
+    left: calc(50% - 135px);
+    padding: 20px 10px;
+  }
 }
 
 .login__modal__header {
@@ -35,13 +41,24 @@
 .login__modal__login-form__label {
   display: block;
   margin-bottom: 20px;
+  line-height: 1.5;
 }
 
 .login__modal__login-form__input {
   display: block;
-  margin-bottom: 20px;
+  margin: 10px 0 20px;
   width: 100%;
-  padding: 5px;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+  transition: border-bottom .35s;
+  font-size: 16px;
+
+  &:active,
+  &:focus {
+    border-bottom: 2px solid rgba(0,0,0,0.1);
+    outline: none;
+  }
 }
 
 .login__modal__login-form__button {
@@ -52,7 +69,8 @@
   border: none;
   border-radius: 5px;
   padding: 5px 10px;
-  margin: 0 auto;
+  margin: 0 auto 20px;
+  cursor: pointer;
 }
 
 .login__modal__login-form__link {
@@ -65,4 +83,49 @@
 .signup-modal {
   height: 500px;
   top: calc(50% - 270px);
+}
+
+.login__form {
+  padding: 20px 0;
+  font-family: "Noto Sans";
+  overflow: auto;
+  max-height: 400px;
+
+  fieldset {
+    margin: 0 auto;
+    width: 300px;
+  }
+
+  &__field {
+    display: block;
+
+    &__input {
+      display: block;
+      margin: 10px 0 20px;
+      width: 100%;
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid rgba(0,0,0,0.1);
+      transition: border-bottom .35s;
+      font-size: 16px;
+
+      &:active,
+      &:focus {
+        outline: none;
+        border-bottom: 2px solid rgba(0,0,0,0.2);
+      }
+    }
+  }
+
+  &__submit {
+    display: block;
+    background-color: #A3C47F;
+    color: #fff;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    margin: 0 auto 20px;
+    cursor: pointer;
+  }
 }

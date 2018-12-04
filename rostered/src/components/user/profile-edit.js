@@ -58,7 +58,7 @@ class UserProfileEdit extends React.Component {
           <div className="profile">
             <div className="profile__left">
               <h1 className="profile__left__title"></h1>
-              <ImageUpload onClick={(url) => this.getPhotoUrl(url)} currentUser={this.props.currentUser} />
+              <ImageUpload onClick={(url) => this.getPhotoUrl(url)} url={this.props.currentUser.photoUrl} currentUser={this.props.currentUser} />
             </div>
             <div className="profile__right">
               <div className="profile__right__links">

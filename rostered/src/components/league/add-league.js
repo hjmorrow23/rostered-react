@@ -99,12 +99,14 @@ class LeagueAdd extends React.Component {
       location: this.state.location,
       division: this.state.division,
       leagueAdmin: this.props.currentUser.userId,
+      photoUrl: "https://res.cloudinary.com/hjmorrow23/image/upload/v1541617700/rostered/profiles/default.jpg",
       sport: this.state.sport,
       age: this.state.age,
       gender: this.state.gender,
       createdDate: today,
       teams:  [{
           name: "Sample Team",
+          photoUrl: "https://res.cloudinary.com/hjmorrow23/image/upload/v1541617700/rostered/profiles/default.jpg",
           id: lid()
         }]
     };

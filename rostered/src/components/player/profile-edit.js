@@ -2,12 +2,19 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import $ from 'jquery';
 import Header from '../header.js';
+import ImageUpload from '../imageUpload.js';
 import {
   Route,
   Link
 } from 'react-router-dom';
 
 class PlayerProfileEdit extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      photoUrl: ""
+    };
+  }
 
   showAdd (e) {
     e.preventDefault();
@@ -21,6 +28,10 @@ class PlayerProfileEdit extends React.Component {
   showRemove (e) {
     e.preventDefault();
     $(".js-delete-team").fadeIn();
+  }
+
+  getPhotoUrl(url) {
+    this.setState({photoUrl: url});
   }
 
   // addPlayer (e) {
@@ -55,7 +66,8 @@ class PlayerProfileEdit extends React.Component {
 
   onStatChange (e) {
     let title = document.getElementById('player-name').value;
-    this.props.onClick(e, title);
+    let photoUrl = this.state.photoUrl;
+    this.props.onClick(e, title, photoUrl);
   }
 
   toggleConfirm (e) {
@@ -77,9 +89,7 @@ class PlayerProfileEdit extends React.Component {
           <div className="profile">
             <div className="profile__left">
               <h1 className="profile__left__title">{player.name}</h1>
-              <div className="profile__left__image">
-                <img src="http://lorempixel.com/200/200/sports" />
-              </div>
+              <ImageUpload onClick={(url) => this.getPhotoUrl(url)} url={player.photoUrl} currentUser={this.props.currentUser} />
             </div>
             <div className="profile__right">
               <div className="profile__right__links">

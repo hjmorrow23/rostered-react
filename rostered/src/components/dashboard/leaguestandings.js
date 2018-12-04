@@ -7,12 +7,13 @@ import {
   withRouter
 } from 'react-router-dom';
 
-class MyLeagues extends React.Component {
+class LeagueStandings extends React.Component {
 
     constructor(props) {
       super(props);
       this.state = {
         matchedLeagues: "",
+        teams: "",
         rendered: false
       };
     }
@@ -47,7 +48,12 @@ class MyLeagues extends React.Component {
               }
             });
           });
+          let teams = matchedLeagues[0].teams;
+          teams.map((team, i) => {
+            team.originalIndex = i;
+          });
           this.setState({matchedLeagues: matchedLeagues});
+          this.setState({teams: teams});
           this.setState({rendered: true});
         }
       }
@@ -55,7 +61,7 @@ class MyLeagues extends React.Component {
 
     render() {
 
-      if(this.state.matchedLeagues === "") {
+      if(this.state.teams === "") {
         return (
           <ul className="panel__list">
             <li className="panel__list__item">
@@ -72,22 +78,28 @@ class MyLeagues extends React.Component {
               }
           });
         });
+        let leagueName = this.state.matchedLeagues[0].name.replace(/\s/g, '');
+
+        let sortedTeams = this.state.teams.sort((a, b) => {
+          return a.rank - b.rank;
+        });
+
         return (
             <ul className="panel__list">
               {/* <LeagueCategory stats={this.props.stats} onStatChange={(stats) => this.props.onStatChange(stats)}/> */}
               {
-                this.state.matchedLeagues.length !== 0 ?
-                this.state.matchedLeagues.map((league,i) => {
-                  let name = league.name.replace(/\s/g, '');
-                  return <li className="panel__list__item" key={league.leagueId}><Link className="panel__list__item__title" to={{
-                      pathname: `/leagues/profile/${name}`,
-                      state: {
-                        leagueIndex: leagueIndex
-                      }
-                    }}>{league.name}</Link></li>
-                })
-
-                : <li className="panel__list__item"><p className="panel__list__item__title">No leagues created</p></li>
+                this.state.teams.length !== 0 ?
+                  sortedTeams.map((team, i) => {
+                    let teamName = team.name.replace(/\s/g, '');
+                    return <li className="panel__list__item" key={team.id}><Link className="panel__list__item__title" to={{
+                        pathname: `/teams/profile/${leagueName}/${teamName}`,
+                        state: {
+                          leagueIndex: leagueIndex,
+                          teamIndex: team.originalIndex
+                        }
+                      }}>{team.rank}.  {team.name}</Link></li>
+                  })
+                : <li className="panel__list__item"><p className="panel__list__item__title">No teams tracked</p></li>
               }
               {/*<li className="panel__list__item">
                 <h2 className="panel__list__item__title" onClick={((e) => this.toggleStats(e))}>Top Scorers</h2>
@@ -112,9 +124,5 @@ class MyLeagues extends React.Component {
     }
   }
 
-MyLeagues.propTypes = {
 
-}
-
-
-export default MyLeagues;
+export default LeagueStandings;
