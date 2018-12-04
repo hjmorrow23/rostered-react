@@ -8,7 +8,7 @@ const fakeUser = {
     {
       leagueName: "Leaguer",
       leagueId: "BCD234"
-    }
+    } 
   ],
   userTeams: [
     {
