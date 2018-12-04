@@ -198,3 +198,37 @@
 .fa {
   cursor: pointer;
 }
+
+.panel-link {
+  color: #fff;
+}
+
+.panel__form {
+  padding: 20px 0;
+
+  fieldset {
+    margin: 0 auto;
+    width: 300px;
+  }
+
+  &__field {
+    display: block;
+
+    &__input {
+      display: block;
+      margin: 10px 0 20px;
+      width: 100%;
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid rgba(0,0,0,0.1);
+      transition: border-bottom .35s;
+      font-size: 16px;
+
+      &:active,
+      &:focus {
+        outline: none;
+        border-bottom: 2px solid rgba(0,0,0,0.2);
+      }
+    }
+  }
+}

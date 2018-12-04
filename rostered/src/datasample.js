@@ -8,14 +8,14 @@ var rosteredData = {
       createdDate: "10/17/05",
       teams: [
         {
-          id: "",
+          id: "2b1",
           name: "Wombats",
           coaches: [],
           rank: 1,
           record: "3-1",
           players: [
             {
-              id: "",
+              id: "3c1",
               currentPlayer: true,
               name: "Peter Parker",
               position: "Striker",
@@ -33,7 +33,7 @@ var rosteredData = {
               }
             },
             {
-              id: "",
+              id: "3c2",
               currentPlayer: false,
               name: "Bruce Banner",
               position: "Left Mid",
@@ -51,7 +51,7 @@ var rosteredData = {
               }
             },
             {
-              id: "",
+              id: "3c3",
               currentPlayer: true,
               name: "Stephen Strange",
               position: "Goalie",
@@ -71,14 +71,14 @@ var rosteredData = {
           ]
         },
         {
-          id: "",
+          id: "2b2",
           name: "Lightning",
           coaches: [],
           rank: 2,
           record: "2-2",
           players: [
             {
-              id: "",
+              id: "3c4",
               currentPlayer: true,
               name: "Jessica Jones",
               position: "Striker",
@@ -96,7 +96,7 @@ var rosteredData = {
               }
             },
             {
-              id: "",
+              id: "3c5",
               currentPlayer: false,
               name: "Luke Cage",
               position: "Center Mid",
@@ -114,7 +114,7 @@ var rosteredData = {
               }
             },
             {
-              id: "",
+              id: "3c6",
               currentPlayer: true,
               name: "Matt Murdoc",
               position: "Goalie",
@@ -134,14 +134,14 @@ var rosteredData = {
           ]
         },
         {
-          id: "",
+          id: "2b3",
           name: "Vikings",
           coaches: [],
           rank: 3,
           record: "1-3",
           players: [
             {
-              id: "",
+              id: "3c7",
               currentPlayer: true,
               name: "Hank Pym",
               position: "Striker",
@@ -159,7 +159,7 @@ var rosteredData = {
               }
             },
             {
-              id: "",
+              id: "3c8",
               currentPlayer: false,
               name: "Eddie Brock",
               position: "Right Mid",
@@ -177,7 +177,7 @@ var rosteredData = {
               }
             },
             {
-              id: "",
+              id: "3c9",
               currentPlayer: true,
               name: "Otto Octavius",
               position: "Goalie",
@@ -206,14 +206,14 @@ var rosteredData = {
       createdDate: "05/22/13",
       teams: [
         {
-          id: "",
+          id: "2b4",
           name: "Bombs",
           coaches: [],
           rank: 1,
           record: "3-1",
           players: [
             {
-              id: "",
+              id: "3c10",
               currentPlayer: true,
               name: "Peter Parker",
               position: "Striker",
@@ -231,7 +231,7 @@ var rosteredData = {
               }
             },
             {
-              id: "",
+              id: "3c11",
               currentPlayer: false,
               name: "Bruce Banner",
               position: "Left Mid",
@@ -249,7 +249,7 @@ var rosteredData = {
               }
             },
             {
-              id: "",
+              id: "3c12",
               currentPlayer: true,
               name: "Stephen Strange",
               position: "Goalie",
@@ -269,14 +269,14 @@ var rosteredData = {
           ]
         },
         {
-          id: "",
+          id: "2b5",
           name: "Thunder",
           coaches: [],
           rank: 2,
           record: "2-2",
           players: [
             {
-              id: "",
+              id: "3c13",
               currentPlayer: true,
               name: "Jessica Jones",
               position: "Striker",
@@ -294,7 +294,7 @@ var rosteredData = {
               }
             },
             {
-              id: "",
+              id: "3c14",
               currentPlayer: false,
               name: "Luke Cage",
               position: "Center Mid",
@@ -312,7 +312,7 @@ var rosteredData = {
               }
             },
             {
-              id: "",
+              id: "3c15",
               currentPlayer: true,
               name: "Matt Murdoc",
               position: "Goalie",
@@ -332,14 +332,14 @@ var rosteredData = {
           ]
         },
         {
-          id: "",
+          id: "2b6",
           name: "Ninjas",
           coaches: [],
           rank: 3,
           record: "1-3",
           players: [
             {
-              id: "",
+              id: "3c16",
               currentPlayer: true,
               name: "Hank Pym",
               position: "Striker",
@@ -357,7 +357,7 @@ var rosteredData = {
               }
             },
             {
-              id: "",
+              id: "3c17",
               currentPlayer: false,
               name: "Eddie Brock",
               position: "Right Mid",
@@ -375,7 +375,7 @@ var rosteredData = {
               }
             },
             {
-              id: "",
+              id: "3c18",
               currentPlayer: true,
               name: "Otto Octavius",
               position: "Goalie",

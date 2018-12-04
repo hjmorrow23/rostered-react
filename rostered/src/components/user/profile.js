@@ -25,12 +25,17 @@ class UserProfile extends React.Component {
         });
       }
 
-      handleChangeUserInfo (e, name) {
-        e.preventDefault();
+      handleChangeUserInfo (firstName, lastName, email, photoUrl) {
         this.setState({
           isEditing: !this.state.isEditing
         });
-        let stats = this.props.user;
+        let currentUser = {};
+        currentUser.firstName = firstName;
+        currentUser.lastName = lastName;
+        currentUser.email = email;
+        currentUser.photoUrl = photoUrl;
+        console.log(currentUser);
+        this.props.onUpdateUser(currentUser);
         // stats.leagues[leagueId].teams[teamId].players = players;
         // stats.leagues[leagueId].teams[teamId].players[playerId].name = name;
         // this.props.onUserInfoChange(user);
@@ -52,9 +57,9 @@ class UserProfile extends React.Component {
         let view;
 
         if (!this.state.isEditing) {
-          view = <UserProfileView user={this.props.user} onClick={(e) => this.editToggle(e)} />;
+          view = <UserProfileView currentUser={this.props.currentUser} user={this.props.user} onClick={(e) => this.editToggle(e)} />;
         } else {
-          view = <UserProfileEdit user={this.props.user} onClick={(e, name) => this.handleChangeUserInfo(e, name)} onEditToggle={(e) => this.editToggle(e)}/>;
+          view = <UserProfileEdit currentUser={this.props.currentUser} user={this.props.user} handleUser={(firstName, lastName, email, photoUrl) => this.handleChangeUserInfo(firstName, lastName, email, photoUrl)} onEditToggle={(e) => this.editToggle(e)}/>;
         }
 
         return (

@@ -10,6 +10,21 @@ import {
 
 class Header extends React.Component {
 
+  componentWillMount() {
+    document.addEventListener('mousedown', this.clickOutside, false);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('mousedown', this.clickOutside, false);
+  }
+
+  clickOutside(e) {
+    let menuWrapper = document.querySelector(".App-nav__list__item__sublist");
+    if (!menuWrapper.contains(e.target)) {
+      $(".App-nav__list__item__sublist").hide();
+    }
+  }
+
   sublistToggle(e) {
     e.preventDefault();
     $(".App-nav__list__item__sublist").toggle();
@@ -24,13 +39,19 @@ class Header extends React.Component {
             <li className="App-nav__list__item"><NavLink exact to="/home" className="App-nav__list__item__link">Home</NavLink></li>
             <li className="App-nav__list__item"><NavLink exact to="/leagues" className="App-nav__list__item__link">Leagues</NavLink></li>
             <li className="App-nav__list__item"><NavLink exact to="/teams" className="App-nav__list__item__link">Teams</NavLink></li>
-            <li className="App-nav__list__item"><NavLink exact to="/players" className="App-nav__list__item__link">Players</NavLink></li>
+            {
+              this.props.currentUser.role === "admin" || this.props.currentUser.role === "leagueAdmin" || this.props.currentUser.role === "coach" ?
+                <li className="App-nav__list__item"><NavLink exact to="/players" className="App-nav__list__item__link">Players</NavLink></li>
+              : ""
+            }
             <li className="App-nav__list__item"><NavLink exact to="/schedule" className="App-nav__list__item__link">Schedule</NavLink></li>
             <li className="App-nav__list__item">
-              <a href="" onClick={(e) => this.sublistToggle(e)} className="App-nav__list__item__profile"></a>
+              <a href="" onClick={(e) => this.sublistToggle(e)} className="App-nav__list__item__profile">
+                <img className="App-nav__list__item__profile--image" src={this.props.currentUser.photoUrl} alt={this.props.currentUser.firstName} />
+              </a>
               <ul className="App-nav__list__item__sublist">
                 <li className="App-nav__list__item__sublist__item"><Link exact to="/user/profile" className="App-nav__list__item__sublist__item__link">Profile</Link></li>
-                <li className="App-nav__list__item__sublist__item"><Link exact to="/user/settings" className="App-nav__list__item__sublist__item__link">Settings</Link></li>
+                {/* }<li className="App-nav__list__item__sublist__item"><Link exact to="/user/settings" className="App-nav__list__item__sublist__item__link">Settings</Link></li> */}
                 <li className="App-nav__list__item__sublist__item"><Link exact to="/" className="App-nav__list__item__sublist__item__link" onClick={(e) => this.props.handleLogout(e)}>Logout</Link></li>
               </ul>
             </li>

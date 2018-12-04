@@ -68,14 +68,18 @@ class LeagueProfileView extends React.Component {
               </div>
             </div>
             <div className="profile__right">
-              <div className="profile__right__links">
-                <a href="" className="profile__right__links__button" onClick={(e) => this.menuToggle(e)} ><i className="fa fa-ellipsis-v"></i></a>
-                <ul className="profile__right__links__menu js-profile-options">
-                  <li className="profile__right__links__menu__item">
-                    <a href="" className="profile__right__links__menu__item__link" onClick={this.props.onClick}>Edit League</a>
-                  </li>
-                </ul>
-              </div>
+              {
+                this.props.currentUser.role === "admin" || this.props.currentUser.role === "leagueAdmin" ?
+                <div className="profile__right__links">
+                  <a href="" className="profile__right__links__button" onClick={(e) => this.menuToggle(e)} ><i className="fa fa-ellipsis-v"></i></a>
+                  <ul className="profile__right__links__menu js-profile-options">
+                    <li className="profile__right__links__menu__item">
+                      <a href="" className="profile__right__links__menu__item__link" onClick={this.props.onClick}>Edit League</a>
+                    </li>
+                  </ul>
+                </div>
+                : ""
+              }
               <dl className="profile__right__list">
                 <div className="profile__right__list__item">
                   <dt className="profile__right__list__item__title">League Name</dt>

@@ -31,10 +31,23 @@ class PlayerProfile extends React.Component {
           isEditing: !this.state.isEditing
         });
         let stats = this.props.stats;
-        let leagueId = this.props.location.state.leagueIndex;
-        let teamId = this.props.location.state.teamIndex;
-        let playerId = this.props.location.state.playerIndex;
-        // stats.leagues[leagueId].teams[teamId].players = players;
+        let leagueId;
+        let teamId;
+        let playerId;
+
+        if(this.props.location.state) {
+          leagueId = this.props.location.state.leagueIndex;
+          teamId = this.props.location.state.teamIndex;
+          playerId = this.props.location.state.playerIndex;
+          sessionStorage.setItem('currentPlayerLeagueId', JSON.stringify(this.props.location.state.leagueIndex));
+          sessionStorage.setItem('currentPlayerTeamId', JSON.stringify(this.props.location.state.teamIndex));
+          sessionStorage.setItem('currentPlayerId', JSON.stringify(this.props.location.state.playerIndex));
+        } else {
+          leagueId = sessionStorage.getItem('currentPlayerLeagueId');
+          teamId = sessionStorage.getItem('currentPlayerTeamId');
+          playerId = sessionStorage.getItem('currentPlayerId');
+        }
+
         stats.leagues[leagueId].teams[teamId].players[playerId].name = name;
         this.props.onStatChange(stats);
       }
@@ -52,17 +65,50 @@ class PlayerProfile extends React.Component {
       // }
 
       render () {
-        let leagueId = this.props.location.state.leagueIndex;
-        let teamId = this.props.location.state.teamIndex;
-        let playerId = this.props.location.state.playerIndex;
+        let leagueId;
+        let teamId;
+        let playerId;
+
+        if(this.props.location.state) {
+          leagueId = this.props.location.state.leagueIndex;
+          teamId = this.props.location.state.teamIndex;
+          playerId = this.props.location.state.playerIndex;
+          sessionStorage.setItem('currentPlayerLeagueId', JSON.stringify(this.props.location.state.leagueIndex));
+          sessionStorage.setItem('currentPlayerTeamId', JSON.stringify(this.props.location.state.teamIndex));
+          sessionStorage.setItem('currentPlayerId', JSON.stringify(this.props.location.state.playerIndex));
+        } else {
+          leagueId = sessionStorage.getItem('currentPlayerLeagueId');
+          teamId = sessionStorage.getItem('currentPlayerTeamId');
+          playerId = sessionStorage.getItem('currentPlayerId');
+        }
+
         console.log(this.props.stats.leagues);
         let player = this.props.stats.leagues[leagueId].teams[teamId].players[playerId];
+        let leagueName = this.props.stats.leagues[leagueId].name;
+        let teamName = this.props.stats.leagues[leagueId].teams[teamId];
         let view;
 
         if (!this.state.isEditing) {
-          view = <PlayerProfileView player={player} onClick={(e) => this.editToggle(e)} />;
+          view = <PlayerProfileView
+            currentUser={this.props.currentUser}
+            player={player}
+            leagueName={leagueName}
+            teamName={teamName}
+            history={this.props.history}
+            match={this.props.match}
+            onClick={(e) => this.editToggle(e)}
+          />;
         } else {
-          view = <PlayerProfileEdit player={player} onClick={(e, name) => this.handleChangeStats(e, name)} onEditToggle={(e) => this.editToggle(e)}/>;
+          view = <PlayerProfileEdit
+            currentUser={this.props.currentUser}
+            player={player}
+            leagueName={leagueName}
+            teamName={teamName}
+            history={this.props.history}
+            match={this.props.match}
+            onClick={(e, name) => this.handleChangeStats(e, name)}
+            onEditToggle={(e) => this.editToggle(e)}
+          />;
         }
 
         return (

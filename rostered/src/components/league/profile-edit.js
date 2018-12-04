@@ -23,21 +23,51 @@ class LeagueProfileEdit extends React.Component {
     $(".js-delete-team").fadeIn();
   }
 
+  hideRemove (e) {
+    e.preventDefault();
+    $("#delete-league").fadeOut();
+  }
+
+  deleteLeague(e) {
+    // e.preventDefault();
+    let stats = this.props.stats;
+    let newStats = [];
+    stats.leagues.map((league, index) => {
+      if(league.name !== this.props.league.name) {
+        newStats.push(league);
+      }
+    });
+    stats.leagues = newStats;
+    this.props.history.push('/leagues');
+    this.props.onDeletedLeague(stats);
+  }
+
   addTeam (e) {
     let teams = this.props.league.teams;
+    let lid = () => {
+      return (Date.now().toString(36) + Math.random().toString(36).substr(2, 16)).toUpperCase();
+    };
+    let name = this.props.league.name.replace(/\s/g, '');
     let newTeam = document.getElementById("newTeam").value;
     let team = {
-      name: newTeam
+      name: newTeam,
+      id: lid(),
+      players: [{
+        name: "Sample Player",
+        id: lid()
+      }]
     };
     teams.push(team);
     this.props.handleTeamEdits(e, teams);
     $("#addForm").slideUp();
+    this.props.history.push(`/leagues/profile/${name}`);
   }
 
   removeTeam (e) {
     e.preventDefault()
     let teams = this.props.league.teams;
     let clickedTeam = e.target.parentElement.parentElement.innerText;
+    let name = this.props.league.name.replace(/\s/g, '');
     console.log(clickedTeam);
     teams.forEach(function(team, i) {
       console.log(team.name);
@@ -46,13 +76,16 @@ class LeagueProfileEdit extends React.Component {
       }
     });
     this.props.handleTeamEdits(e, teams);
+    this.props.history.push(`/leagues/profile/${name}`);
 
   }
 
   onStatChange (e) {
     let title = document.getElementById('league-name').value;
+    let urlTitle = title.replace(/\s/g, '');
     let createdDate = document.getElementById('league-created-date').value;
     this.props.onClick(e, title, createdDate);
+    this.props.history.push(`${urlTitle}`);
   }
 
   toggleConfirm (e) {
@@ -119,8 +152,8 @@ class LeagueProfileEdit extends React.Component {
                     <div className="panel__message-wrapper">
                       <p className="panel__message">This action will delete this league which can&#39;t be undone. Delete this league?</p>
                       <div className="panel__actions">
-                        <a href="" className="panel__actions__link">Yes</a>
-                        <a href="" className="panel__actions__link">No</a>
+                        <a href="" onClick={(e) => this.deleteLeague(e)} className="panel__actions__link">Yes</a>
+                        <a href="" onClick={(e) => this.hideRemove(e)} className="panel__actions__link">No</a>
                       </div>
                     </div>
                   </div>
@@ -128,7 +161,7 @@ class LeagueProfileEdit extends React.Component {
             </div>
             <div className="panel panel__full-width profile__panel">
               <div className="panel__header">
-                <h1 className="panel__title">Standings</h1>
+                <h1 className="panel__title">Teams</h1>
                 <i className="fa fa-plus panel__header__add" onClick={(e) => this.showAdd(e) } ></i>
               </div>
               <div className="panel__body">

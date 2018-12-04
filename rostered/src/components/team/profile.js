@@ -31,37 +31,80 @@ class TeamProfile extends React.Component {
           isEditing: !this.state.isEditing
         });
         let stats = this.props.stats;
-        let leagueId = this.props.location.state.leagueIndex;
-        let teamId = this.props.location.state.teamIndex;
-        // stats.leagues[leagueId].teams[teamId].players = players;
+        let leagueId;
+        let teamId;
+        if(this.props.location.state) {
+          leagueId = this.props.location.state.leagueIndex;
+          teamId = this.props.location.state.teamIndex;
+          sessionStorage.setItem('currentTeamLeagueId', JSON.stringify(this.props.location.state.leagueIndex));
+          sessionStorage.setItem('currentTeamId', JSON.stringify(this.props.location.state.teamIndex));
+        } else {
+          leagueId = sessionStorage.getItem('currentTeamLeagueId');
+          teamId = sessionStorage.getItem('currentTeamId');
+        }
         stats.leagues[leagueId].teams[teamId].name = name;
         this.props.onStatChange(stats);
       }
 
       handlePlayerEdits (e, players) {
         e.preventDefault();
-        // this.setState({
-        //   isEditing: !this.state.isEditing
-        // });
         let stats = this.props.stats;
-        let leagueId = this.props.location.state.leagueIndex;
-        let teamId = this.props.location.state.teamIndex;
+        let leagueId;
+        let teamId;
+        if(this.props.location.state) {
+          leagueId = this.props.location.state.leagueIndex;
+          teamId = this.props.location.state.teamIndex;
+          sessionStorage.setItem('currentTeamLeagueId', JSON.stringify(this.props.location.state.leagueIndex));
+          sessionStorage.setItem('currentTeamId', JSON.stringify(this.props.location.state.teamIndex));
+        } else {
+          leagueId = sessionStorage.getItem('currentTeamLeagueId');
+          teamId = sessionStorage.getItem('currentTeamId');
+        }
         stats.leagues[leagueId].teams[teamId].players = players;
         this.props.onStatChange(stats);
       }
 
       render () {
-        let leagueId = this.props.location.state.leagueIndex;
-        let teamId = this.props.location.state.teamIndex;
+        let leagueId;
+        let teamId;
+        if(this.props.location.state) {
+          leagueId = this.props.location.state.leagueIndex;
+          teamId = this.props.location.state.teamIndex;
+          sessionStorage.setItem('currentTeamLeagueId', JSON.stringify(this.props.location.state.leagueIndex));
+          sessionStorage.setItem('currentTeamId', JSON.stringify(this.props.location.state.teamIndex));
+        } else {
+          leagueId = sessionStorage.getItem('currentTeamLeagueId');
+          teamId = sessionStorage.getItem('currentTeamId');
+        }
+
         console.log(this.props.stats.leagues);
         let leagueName = this.props.stats.leagues[leagueId].name;
         let team = this.props.stats.leagues[leagueId].teams[teamId];
         let view;
 
         if (!this.state.isEditing) {
-          view = <TeamProfileView leagueId={leagueId} teamId={teamId} leagueName={leagueName} team={team} handlePlayerEdits={(e, players) => this.handlePlayerEdits(e, players)} onClick={(e) => this.editToggle(e)} />;
+          view = <TeamProfileView
+            currentUser={this.props.currentUser}
+            leagueId={leagueId}
+            teamId={teamId}
+            history={this.props.history}
+            match={this.props.match}
+            leagueName={leagueName}
+            team={team}
+            handlePlayerEdits={(e, players) => this.handlePlayerEdits(e, players)}
+            onClick={(e) => this.editToggle(e)}
+          />;
         } else {
-          view = <TeamProfileEdit team={team} handlePlayerEdits={(e, players) => this.handlePlayerEdits(e, players)} onClick={(e, name, players) => this.handleChangeStats(e, name, players)} onEditToggle={(e) => this.editToggle(e)}/>;
+          view = <TeamProfileEdit
+            currentUser={this.props.currentUser}
+            team={team}
+            leagueName={leagueName}
+            history={this.props.history}
+            match={this.props.match}
+            handlePlayerEdits={(e, players) => this.handlePlayerEdits(e, players)}
+            onClick={(e, name, players) => this.handleChangeStats(e, name, players)}
+            onEditToggle={(e) => this.editToggle(e)}
+          />;
         }
 
         return (

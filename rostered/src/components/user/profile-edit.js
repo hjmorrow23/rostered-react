@@ -2,12 +2,43 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import $ from 'jquery';
 import Header from '../header.js';
+import ImageUpload from '../imageUpload.js';
 import {
   Route,
   Link
 } from 'react-router-dom';
 
 class UserProfileEdit extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      userInfo: {
+        firstName: "",
+        lastName: "",
+        email: "",
+        photoUrl: ""
+      },
+      photoUrl: ""
+    };
+  }
+
+  getPhotoUrl(url) {
+    // this.setState({photoUrl: url});
+    let firstName = document.getElementById('first-name').value;
+    let lastName = document.getElementById('last-name').value;
+    let email = document.getElementById('email').value;
+    let photoUrl = url;
+    let currentUser = {firstName, lastName, email, photoUrl};
+    this.props.handleUser(firstName, lastName, email, photoUrl);
+  }
+
+  getUserInfo() {
+    let firstName = document.getElementById('first-name');
+    let lastName = document.getElementById('last-name');
+    let email = document.getElementById('email');
+    let photoUrl = this.state.photoUrl;
+    let currentUser = {firstName, lastName, email, photoUrl};
+  }
 
   // onStatChange (e) {
   //   let title = document.getElementById('player-name').value;
@@ -27,9 +58,7 @@ class UserProfileEdit extends React.Component {
           <div className="profile">
             <div className="profile__left">
               <h1 className="profile__left__title"></h1>
-              <div className="profile__left__image">
-                <img src="http://lorempixel.com/200/200/sports" />
-              </div>
+              <ImageUpload onClick={(url) => this.getPhotoUrl(url)} currentUser={this.props.currentUser} />
             </div>
             <div className="profile__right">
               <div className="profile__right__links">
@@ -41,27 +70,30 @@ class UserProfileEdit extends React.Component {
                   <li className="profile__right__links__menu__item">
                     <a href="" className="profile__right__links__menu__item__link" onClick={(e) => this.props.onEditToggle(e)}>Cancel</a>
                   </li>
-                  <li className="profile__right__links__menu__item">
-                    <a href="" className="profile__right__links__menu__item__link" onClick={(e) => this.toggleConfirm(e)}>Delete Team</a>
-                  </li>
                 </ul>
               </div>
               <dl className="profile__right__list">
                 <div className="profile__right__list__item">
-                  <dt className="profile__right__list__item__title">Team Name</dt>
+                  <dt className="profile__right__list__item__title">First Name</dt>
                   <dd className="profile__right__list__item__data">
-                    <input id="user-name" className="profile__right__list__item__data__field" defaultValue="" />
+                    <input id="first-name" className="profile__right__list__item__data__field" defaultValue={this.props.currentUser.firstName} />
                   </dd>
                 </div>
                 <div className="profile__right__list__item">
-                  <dt className="profile__right__list__item__title">Position</dt>
-                  <dd className="profile__right__list__item__data"></dd>
+                  <dt className="profile__right__list__item__title">Last Name</dt>
+                  <dd className="profile__right__list__item__data">
+                    <input id="last-name" className="profile__right__list__item__data__field" defaultValue={this.props.currentUser.lastName} />
+                  </dd>
                 </div>
                 <div className="profile__right__list__item">
-                  <dt className="profile__right__list__item__title">Created</dt>
+                  <dt className="profile__right__list__item__title">Email</dt>
                   <dd className="profile__right__list__item__data">
-                    <input id="player-created-date" className="profile__right__list__item__data__field" defaultValue="today" />
+                    <input id="email" className="profile__right__list__item__data__field" defaultValue={this.props.currentUser.email} />
                   </dd>
+                </div>
+                <div className="profile__right__list__item">
+                  <dt className="profile__right__list__item__title">Role</dt>
+                  <dd className="profile__right__list__item__data">{this.props.currentUser.role}</dd>
                 </div>
               </dl>
                 <div id="delete-team"className="panel panel__full-width modal">

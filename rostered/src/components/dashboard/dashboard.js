@@ -5,6 +5,8 @@ import League from './league.js';
 import Team from './team.js';
 import Player from './player.js';
 import Search from  '../search.js';
+import Panel from '../panel.js';
+import MyLeagues from './myleagues.js';
 import {
   Route,
   Link,
@@ -20,13 +22,18 @@ class Dashboard extends React.Component {
         rank: null,
         name: null,
         value: null,
-        results: []
+        results: [],
+        title: ""
       };
     }
 
     toggleStats = (e) => {
       var el = e.target;
       $(el).next(".panel__sublist").slideToggle();
+    }
+
+    getPanelHeader(title) {
+      this.setState({title: title});
     }
 
     searchData(e) {
@@ -112,17 +119,10 @@ class Dashboard extends React.Component {
     render() {
       return (
         <div>
-          {/* <Header handleLogout={(e) => this.props.handleLogout(e)}/>
-          <section className="content">
-            <div className="search__wrapper">
-              <input type="text" className="search__input" />
-              <a href="" className="search__submit" onClick={(e) => this.searchData(e) }><span>Search</span></a>
-              <Search stats={this.props.stats} results={this.state.results}/>
-            </div> */}
             <h1 className="content__header">Dashboard</h1>
-            <League stats={this.props.stats} onStatChange={(stats) => this.props.onStatChange(stats)}/>
-            {/* <Player scorers={this.props.scorers} />
-          </section> */}
+            <Panel title={"My Leagues"} stats={this.props.stats} currentUser={this.props.currentUser} child={<MyLeagues currentUser={this.props.currentUser} stats={this.props.stats} setTitle={() => this.getPanelHeader()} />} />
+            <Panel title={"My Teams"} stats={this.props.stats} currentUser={this.props.currentUser} child={<MyLeagues currentUser={this.props.currentUser} stats={this.props.stats} setTitle={() => this.getPanelHeader()} />} />
+            <Panel title={"Top Scorers"} stats={this.props.stats} currentUser={this.props.currentUser} child={<MyLeagues currentUser={this.props.currentUser} stats={this.props.stats} setTitle={() => this.getPanelHeader()} />} />
         </div>
       );
     }

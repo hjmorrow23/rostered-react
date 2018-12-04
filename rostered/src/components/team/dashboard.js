@@ -23,8 +23,8 @@ class TeamDashboard extends React.Component {
     return (
       <div>
           <Route exact path={match.path} render={ () => <Redirect to={`${match.path}/dashboard`} />} />
-          <Route exact path={`${match.path}/dashboard`} render={ () => <TeamDashboardTable stats={this.props.stats} onStatChange={(stats) => this.props.onStatChange(stats)} match={this.props.match} />} />
-          <Route exact path={`${match.path}/profile/:leagueid/:teamid`} render={ ({match}) => <TeamProfile stats={this.props.stats} onStatChange={(stats) => this.props.onStatChange(stats)} match={match} />} />
+          <Route exact path={`${match.path}/dashboard`} render={ () => <TeamDashboardTable currentUser={this.props.currentUser} stats={this.props.stats} onStatChange={(stats) => this.props.onStatChange(stats)} match={this.props.match} />} />
+          <Route exact path={`${match.path}/profile/:leagueid/:teamid`} render={ ({match}) => <TeamProfile currentUser={this.props.currentUser} stats={this.props.stats} onStatChange={(stats) => this.props.onStatChange(stats)} match={match} />} />
       </div>
     );
   }
@@ -33,7 +33,18 @@ class TeamDashboard extends React.Component {
 class TeamDashboardTable extends React.Component {
 
   render() {
-
+    let myTeams = [];
+    if (this.props.currentUser.role === "coach" || this.props.currentUser.role === "player") {
+      this.props.currentUser.userTeams.map((userTeam, i) => {
+        this.props.stats.leagues.map((league,i) => {
+          league.teams.map((team, i) => {
+            if (userTeam.leagueId === team.teamId) {
+              myTeams.push(team);
+            }
+          });
+        })
+      })
+    }
 
     return (
       <div className="panel panel__full-width">
@@ -42,24 +53,43 @@ class TeamDashboardTable extends React.Component {
         </div>
         <div className="panel__body">
           <ul className="panel__list">
-          {this.props.stats.leagues.map((league, i) => {
-              let leagueName = league.name.replace(/\s/g, '');
-              let leagueId = i;
+          {
+            this.props.currentUser.role === "admin" || this.props.currentUser.role === "leagueAdmin" ?
+              this.props.stats.leagues.map((league, i) => {
+                let leagueName = league.name.replace(/\s/g, '');
+                let leagueId = i;
 
-              return league.teams.map((team, i) => {
-                let teamName = team.name.replace(/\s/g, '');
-                let teamId = i;
+                return league.teams.map((team, i) => {
+                  let teamName = team.name.replace(/\s/g, '');
+                  let teamId = i;
 
-                return <li className="panel__list__item"><Link to={{
-                  pathname: `${this.props.match.url}/profile/${leagueName}/${teamName}`,
-                  state: {
-                    leagueIndex: leagueId,
-                    teamIndex: teamId
-                  }
-                }} className="panel__list__item__title"><i className="fa fa-futbol" aria-hidden="true"></i> {team.name}</Link></li>;
+                  return <li className="panel__list__item"><Link to={{
+                    pathname: `${this.props.match.url}/profile/${leagueName}/${teamName}`,
+                    state: {
+                      leagueIndex: leagueId,
+                      teamIndex: teamId
+                    }
+                  }} className="panel__list__item__title"><i className="fa fa-futbol" aria-hidden="true"></i> {team.name}</Link></li>;
+                })
+
               })
+            : this.props.stats.leagues.map((league, i) => {
+                let leagueName = league.name.replace(/\s/g, '');
+                let leagueId = i;
 
-            })
+                myTeams.map((team, i) => {
+                  let teamName = team.name.replace(/\s/g, '');
+                  let teamId = i;
+
+                  return <li className="panel__list__item"><Link to={{
+                    pathname: `${this.props.match.url}/profile/${leagueName}/${teamName}`,
+                    state: {
+                      leagueIndex: leagueId,
+                      teamIndex: teamId
+                    }
+                  }} className="panel__list__item__title"><i className="fa fa-futbol" aria-hidden="true"></i> {team.name}</Link></li>;
+                })
+              })
           }
           </ul>
         </div>

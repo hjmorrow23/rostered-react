@@ -1,44 +1,41 @@
-import React, { Component } from 'react';
-import App from './App';
-import renderer from 'react-test-renderer';
-import rosteredData from './datasample.js';
+import React from 'react';
 import ReactDOM from 'react-dom';
-import unirest from 'unirest';
-// import firebase, { auth, provider } from './firebase.js';
+import { Provider } from 'react-redux';
+// import {createStore } from 'redux';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
-// import logo from './logo.svg';
-// import Login from './components/login/login.js';
-// import Search from  './components/search.js';
-// import Header from  './components/header.js';
-// import Container from './components/container.js';
-// import Dashboard from './components/dashboard/dashboard.js';
-// import LeagueDashboard from './components/league/dashboard.js';
-// import LeagueProfile from './components/league/profile.js';
-// import TeamDashboard from './components/team/dashboard.js';
-// import PlayerDashboard from './components/player/dashboard.js';
-// import LoginForm from './components/login/loginform.js';
-// import SignupForm from './components/login/signupform.js';
-// import ResetPasswordEmail from './components/login/resetpasswordemail.js';
-// import ResetPasswordConfirm from './components/login/resetpasswordconfirm.js';
-// import UserProfile from './components/user/profile.js';
-// import CalendarContainer from './components/calendar/calendar.js';
-// import {
-//   BrowserRouter,
-//   Route,
-//   Redirect,
-//   Switch,
-//   withRouter
-// } from 'react-router-dom';
+import { configure, shallow } from 'enzyme';
+import { expect } from 'chai';
+import './index.css';
+import rosteredData from './datasample.js';
+import store from './store';
+// import apiTest from './api.js';
+import App from './App';
+import Header from './components/header';
+import registerServiceWorker from './registerServiceWorker';
+import {
+  BrowserRouter,
+  Route,
+  Redirect,
+  Switch,
+  withRouter
+} from 'react-router-dom';
+
+import Adapter from 'enzyme-adapter-react-16'
+configure({ adapter: new Adapter() });
 
 import $ from 'jquery';
 import './stylesheets/App.css';
 
 it('renders without crashing', () => {
   const div = document.createElement('div');
-  ReactDOM.render(<App stats={rosteredData} />, div);
+  ReactDOM.render(<Provider store={store}>
+    <App stats={rosteredData} />
+  </Provider>, div);
   ReactDOM.unmountComponentAtNode(div);
 });
 
-it('data is object', () => {
-  expect(rosteredData).to.be.a('object');
+it('has header title', () => {
+  const wrapper = shallow(<Header />);
+  const title = <h1 className="App-title">Rostered</h1>;
+  expect(wrapper.find('h1').hasClass("App-title")).to.equal(true);
 });

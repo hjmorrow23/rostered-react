@@ -8,6 +8,15 @@ import {
 } from 'react-router-dom';
 
 class UserProfileView extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      userInfo: {
+        firstName: "",
+        lastName: ""
+      }
+    };
+  }
 
   menuToggle (e) {
     e.preventDefault();
@@ -23,7 +32,7 @@ class UserProfileView extends React.Component {
             <div className="profile__left">
               <h1 className="profile__left__title"></h1>
               <div className="profile__left__image">
-                <img src="http://lorempixel.com/200/200/sports" />
+                <img src={this.props.currentUser.photoUrl} />
               </div>
             </div>
             <div className="profile__right">
@@ -37,16 +46,20 @@ class UserProfileView extends React.Component {
               </div>
               <dl className="profile__right__list">
                 <div className="profile__right__list__item">
-                  <dt className="profile__right__list__item__title">Username</dt>
-                  <dd className="profile__right__list__item__data">{user.displayName}</dd>
+                  <dt className="profile__right__list__item__title">First Name</dt>
+                  <dd className="profile__right__list__item__data">{ this.props.currentUser.firstName }</dd>
                 </div>
                 <div className="profile__right__list__item">
-                  <dt className="profile__right__list__item__title">Position</dt>
-                  <dd className="profile__right__list__item__data"></dd>
+                  <dt className="profile__right__list__item__title">Last Name</dt>
+                  <dd className="profile__right__list__item__data">{ this.props.currentUser.lastName }</dd>
                 </div>
                 <div className="profile__right__list__item">
-                  <dt className="profile__right__list__item__title">Created</dt>
-                  <dd className="profile__right__list__item__data">Today</dd>
+                  <dt className="profile__right__list__item__title">Email</dt>
+                  <dd className="profile__right__list__item__data">{ this.props.currentUser.email }</dd>
+                </div>
+                <div className="profile__right__list__item">
+                  <dt className="profile__right__list__item__title">Role</dt>
+                  <dd className="profile__right__list__item__data">{ this.props.currentUser.role }</dd>
                 </div>
               </dl>
             </div>

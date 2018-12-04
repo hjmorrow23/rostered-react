@@ -23,16 +23,20 @@ class PlayerProfileEdit extends React.Component {
     $(".js-delete-team").fadeIn();
   }
 
-  addPlayer (e) {
-    let players = this.props.team.players;
-    let newPlayer = document.getElementById("newPlayer").value;
-    let player = {
-      name: newPlayer
-    };
-    players.push(player);
-    this.props.handlePlayerEdits(e, players);
-    $("#addForm").slideUp();
-  }
+  // addPlayer (e) {
+  //   let players = this.props.team.players;
+  //   let newPlayer = document.getElementById("newPlayer").value;
+  //   let leagueName = this.props.leagueName;
+  //   let teamName = this.props.teamName;
+  //   let name =
+  //   let player = {
+  //     name: newPlayer
+  //   };
+  //   players.push(player);
+  //   this.props.handlePlayerEdits(e, players);
+  //   $("#addForm").slideUp();
+  //   this.props.history.push(`/players/profile/${leagueName}/${teamName}/${name}`);
+  // }
 
   removePlayer (e) {
     e.preventDefault()
@@ -46,7 +50,7 @@ class PlayerProfileEdit extends React.Component {
       }
     });
     this.props.handlePlayerEdits(e, players);
-
+    this.props.history.push(`/players`);
   }
 
   onStatChange (e) {

@@ -26,18 +26,23 @@ class TeamProfileEdit extends React.Component {
   addPlayer (e) {
     let players = this.props.team.players;
     let newPlayer = document.getElementById("newPlayer").value;
+    let name = this.props.team.name.replace(/\s/g, '');
+    let leagueName = this.props.leagueName;
     let player = {
       name: newPlayer
     };
     players.push(player);
     this.props.handlePlayerEdits(e, players);
     $("#addForm").slideUp();
+    this.props.history.push(`/teams/profile/${leagueName}/${name}`);
   }
 
   removePlayer (e) {
     e.preventDefault()
     let players = this.props.team.players;
     let clickedPlayer = e.target.parentElement.parentElement.innerText;
+    let leagueName = this.props.leagueName;
+    let name = this.props.team.name.replace(/\s/g, '');
     console.log(clickedPlayer);
     players.forEach(function(player, i) {
       console.log(player.name);
@@ -46,13 +51,16 @@ class TeamProfileEdit extends React.Component {
       }
     });
     this.props.handlePlayerEdits(e, players);
-
+    this.props.history.push(`/teams/profile/${leagueName}/${name}`);
   }
 
   onStatChange (e) {
     let title = document.getElementById('team-name').value;
     let createdDate = document.getElementById('team-created-date').value;
+    let leagueName = this.props.leagueName;
+    let urlTitle = title.replace(/\s/g, '');
     this.props.onClick(e, title);
+    this.props.history.push(`/teams/profile/${leagueName}/${urlTitle}`);
   }
 
   toggleConfirm (e) {

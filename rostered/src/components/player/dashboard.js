@@ -23,8 +23,8 @@ class PlayerDashboard extends React.Component {
     return (
       <div>
           <Route exact path={match.path} render={ () => <Redirect to={`${match.path}/dashboard`} />} />
-          <Route exact path={`${match.path}/dashboard`} render={ () => <PlayerDashboardTable stats={this.props.stats} onStatChange={(stats) => this.props.onStatChange(stats)} match={this.props.match} />} />
-          <Route exact path={`${match.path}/profile/:leagueid/:teamid/:playerid`} render={ ({match}) => <PlayerProfile stats={this.props.stats} onStatChange={(stats) => this.props.onStatChange(stats)} match={match} />} />
+          <Route exact path={`${match.path}/dashboard`} render={ () => <PlayerDashboardTable currentUser={this.props.currentUser} stats={this.props.stats} onStatChange={(stats) => this.props.onStatChange(stats)} match={this.props.match} />} />
+          <Route exact path={`${match.path}/profile/:leagueid/:teamid/:playerid`} render={ ({match}) => <PlayerProfile currentUser={this.props.currentUser} stats={this.props.stats} onStatChange={(stats) => this.props.onStatChange(stats)} match={match} />} />
       </div>
     );
   }

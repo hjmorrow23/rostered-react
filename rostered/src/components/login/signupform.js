@@ -13,6 +13,7 @@ class SignupForm extends React.Component {
     this.state = {
       email: "",
       username: "",
+      role: "",
       password1: "",
       password2: ""
 
@@ -34,6 +35,13 @@ class SignupForm extends React.Component {
     });
   }
 
+  getRole(e) {
+    let role = e.target.value;
+    this.setState({
+      role: role
+    });
+  }
+
   getPassword1(e) {
     let password1 = e.target.value;
     this.setState({
@@ -51,7 +59,7 @@ class SignupForm extends React.Component {
   signUp(e) {
     // e.preventDefault();
     if(this.state.password1 === this.state.password2) {
-      this.props.handleSignup(this.state.email, this.state.username, this.state.password1, this.state.password2);
+      this.props.handleSignup(this.state.email, this.state.username, this.state.role, this.state.password1, this.state.password2);
     } else {
       alert("passwords don't match");
     }
@@ -66,6 +74,12 @@ class SignupForm extends React.Component {
           <input id="email" onChange={(e) => this.getEmail(e)} className="login__modal__login-form__input" type="text" />
           <label className="login__modal__login-form__label">Username</label>
           <input id="username" onChange={(e) => this.getUsername(e)} className="login__modal__login-form__input" type="text" />
+          <label className="login__modal__login-form__label">Which best describes your role in the league?</label>
+          <select id="username" onChange={(e) => this.getRole(e)} className="login__modal__login-form__input">
+            <option value="player">Player</option>
+            <option value="coach">Coach</option>
+            <option value="league-admin">League Administrator</option>
+          </select>
           <label className="login__modal__login-form__label">Password</label>
           <input id="password1" onChange={(e) => this.getPassword1(e)} className="login__modal__login-form__input" type="password" />
           <label className="login__modal__login-form__label">Retype Password</label>

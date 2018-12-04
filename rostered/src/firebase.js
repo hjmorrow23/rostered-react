@@ -16,7 +16,7 @@ import firebase from 'firebase';
   export const auth = firebase.auth();
   export const database = firebase.database();
   export const updateFirebase = (stats) => {
-    database.ref().set({stats});
+    database.ref('stats').set(stats);
   };
 
   export default firebase;

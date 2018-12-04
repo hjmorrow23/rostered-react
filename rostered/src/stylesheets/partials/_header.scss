@@ -47,18 +47,23 @@
       }
 
       &__profile {
-        background-image: url('../assets/images/profile.jpeg');
+        // background-image: url('../assets/images/profile.jpeg');
         width: 50px;
         height: 50px;
         display: inline-block;
-        background-size: 50px 50px;
+        // background-size: 50px 50px;
         border-radius: 50%;
+
+        &--image {
+          width: 100%;
+          border-radius: 50%;
+        }
       }
 
       &__sublist {
         display: none;
         position: absolute;
-        bottom: -120px;
+        bottom: -75px;
         background-color: #fff;
         right: 0;
         border-radius: 5px;
