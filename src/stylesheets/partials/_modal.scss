@@ -1,0 +1,58 @@
+.modal {
+  display: none;
+}
+
+#delete-league {
+  margin: 40px 0;
+}
+
+.calendar-container {
+  margin: 50px 150px;
+}
+
+.calendar__modal {
+  position: absolute;
+  background-color: #fff;
+  border-radius: 5px;
+  -webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.32);
+  -moz-box-shadow: 0 1px 3px rgba(0,0,0,0.32);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.32);
+  padding: 20px;
+  z-index: 1000;
+  left: calc(50% - 80px);
+  top: calc(50% - 85px);
+
+  &__close {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+  }
+
+  &__form {
+    margin-top: 10px;
+
+    &__field {
+
+      &__label,
+      &__input,
+      &__textarea {
+        display: block;
+        margin-bottom: 10px;
+      }
+
+      &__label {
+
+      }
+
+      &__input {
+
+      }
+
+      &__textarea {
+
+      }
+
+    }
+
+  }
+}

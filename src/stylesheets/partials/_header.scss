@@ -1,0 +1,248 @@
+/* Header */
+
+.App-header {
+  background: linear-gradient(rgba(0, 0, 0, .7), transparent), url('../assets/images/ball-banner.jpg') no-repeat;
+  background-position: center;
+  height: 30vh;
+  padding: 20px;
+  color: white;
+  position: relative;
+
+  &__profile {
+    // background-image: url('../assets/images/profile.jpeg');
+    width: 40px;
+    height: 40px;
+    display: none;
+    // background-size: 50px 50px;
+    border-radius: 50%;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+
+    @media (max-width: 650px) {
+      display: inline-block;
+    }
+
+    &--image {
+      width: 100%;
+      border-radius: 50%;
+    }
+  }
+
+  &__sublist {
+    display: none;
+    position: absolute;
+    bottom: -75px;
+    background-color: #fff;
+    right: 0;
+    border-radius: 5px;
+    font-family: "Noto Sans";
+
+    &__item {
+      text-align: center;
+      background-color: rgba(255, 255, 255, 1);
+      transition: background-color .35s;
+
+      &:hover {
+        background-color: rgba(0, 0, 0, .12);
+      }
+
+      &:first-child {
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+      }
+
+      &:last-child {
+        border-bottom-left-radius: 5px;
+        border-bottom-right-radius: 5px;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+      }
+
+      &__link {
+        color: black;
+        display: block;
+        padding: 10px;
+        width: 100px;
+
+      }
+    }
+  }
+
+  @media (max-width: 650px) {
+    text-align: center;
+  }
+}
+
+.App-title {
+  font-size: 2rem;
+  font-family: "Fjalla One";
+  display: inline-block;
+  padding: 7px;
+
+  @media (max-width: 650px) {
+    display: block;
+  }
+}
+
+.content {
+  position:relative;
+  padding: 50px 0 1px;
+  font-family: "Noto Sans";
+  text-align: center;
+}
+
+.content__header {
+  margin-bottom: 45px;
+}
+
+.App-nav {
+  float: right;
+  position: relative;
+  font-family: "Noto Sans";
+
+  @media (max-width: 650px) {
+    display: none;
+  }
+
+  &__list {
+    position: relative;
+    bottom: 5px;
+    left: 20px;
+
+    &__item {
+      display: inline-block;
+      margin-right: 25px;
+      vertical-align: middle;
+      position: relative;
+
+      &__link {
+        color: #fff;
+      }
+
+      &__profile {
+        // background-image: url('../assets/images/profile.jpeg');
+        width: 50px;
+        height: 50px;
+        display: inline-block;
+        // background-size: 50px 50px;
+        border-radius: 50%;
+
+        &--image {
+          width: 100%;
+          border-radius: 50%;
+        }
+      }
+
+      &__sublist {
+        display: none;
+        position: absolute;
+        bottom: -75px;
+        background-color: #fff;
+        right: 0;
+        border-radius: 5px;
+
+        &__item {
+          text-align: center;
+          background-color: rgba(255, 255, 255, 1);
+          transition: background-color .35s;
+
+          &:hover {
+            background-color: rgba(0, 0, 0, .12);
+          }
+
+          &:first-child {
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+          }
+
+          &:last-child {
+            border-bottom-left-radius: 5px;
+            border-bottom-right-radius: 5px;
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+          }
+
+          &__link {
+            color: black;
+            display: block;
+            padding: 10px;
+            width: 100px;
+
+          }
+        }
+      }
+    }
+  }
+}
+
+.mobile-nav-trigger {
+  display: none;
+  color: #fff;
+  position: absolute;
+  left: 20px;
+  top: 20px;
+  font-size: 24px;
+
+  @media (max-width: 650px) {
+    display: inline-block;
+  }
+}
+
+.Mobile-nav {
+  opacity: 0;
+  transform: translateX(-100%);
+  transition: opacity .35s, transform .35s;
+  position: fixed;
+  height: 100%;
+  width: 50%;
+  top: 0;
+  background-color: #A3C47F;
+  z-index: 10000;
+  font-family: "Noto Sans";
+
+  &--close {
+    font-size: 30px;
+    color: #fff;
+    margin: 10px 0 0 10px;
+    position: relative;
+    top: 10px;
+  }
+
+  &__list {
+    margin-top: 40px;
+
+    &__item {
+
+      &__link {
+        color: #fff;
+        display: block;
+        padding: 10px;
+        background-color: transparent;
+        transition: background-color .35s, color .35s;
+
+        // &:hover {
+        //   color: #A3C47F;
+        //   background-color: #fff;
+        // }
+      }
+
+    }
+
+  }
+
+}
+
+.selected {
+    color: #A3C47F;
+    background-color: #fff;
+}
+
+.visible {
+  opacity: 1;
+  transform: translateX(0);
+}

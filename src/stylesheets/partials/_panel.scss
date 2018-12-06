@@ -1,0 +1,257 @@
+.panel {
+  width: 30%;
+  margin-right: 2%;
+  display: inline-block;
+  -webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+  -moz-box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+  border-radius: 5px;
+  vertical-align: top;
+  margin-bottom: 20px;
+
+  @media (max-width: 768px) {
+    width: 80%;
+    margin: 0 auto 35px;
+    display: block;
+  }
+
+  &__message-wrapper {
+    padding: 20px;
+    text-align: center;
+  }
+
+  &__message {
+    margin-bottom: 20px;
+  }
+
+  &__actions__link {
+    padding: 5px 15px;
+    background-color: #A3C47F;
+    color: #fff;
+    border-radius: 5px;
+
+    &:first-child {
+      margin-right: 10px;
+    }
+  }
+}
+
+.panel__full-width {
+  width: 80%;
+}
+
+.panel:last-child {
+  margin-right: 0;
+
+  @media (max-width: 768px) {
+    margin: 0 auto 35px;
+  }
+}
+
+.panel__header {
+  display: inline-block;
+  width: 100%;
+  background-color: #A3C47F;
+  color: white;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  padding: 15px 0;
+  position: relative;
+
+  &__add {
+    cursor: pointer;
+    display: inline-block;
+    position: absolute;
+    right: 15px;
+    top: 15px;
+  }
+}
+
+.panel__body {
+  text-align: left;
+}
+
+.panel__list {
+  list-style: none;
+}
+
+.panel__list__item {
+  border-bottom: 1px solid rgba(0,0,0,0.12);
+}
+
+.panel__list__item:last-child {
+  border-bottom: none;
+}
+
+.panel__list__item__header {
+  border-bottom: 1px solid rgba(0,0,0,0.12);
+  background-color: #f5f5f5;
+  padding: 5px 15px;
+  width: calc(100% - 30px);
+}
+
+.panel__list__item__header span {
+  display: inline-block;
+}
+
+.panel__list__item__header--rank,
+.panel__field__stat__rank,
+.panel__field__rank {
+  width: 15%;
+}
+
+.panel__list__item__header--team,
+.panel__field__stat__name,
+.panel__field__name {
+  width: 55%;
+}
+
+.panel__list__item__header--record,
+.panel__field__stat__value {
+  width: 30%;
+  border-right: none;
+}
+
+.panel__field__value {
+  width: 15%;
+}
+
+.panel__list__item__title {
+  padding: 15px;
+  display: block;
+  color: black;
+
+  &__icon {
+    margin-right: 15px;
+  }
+
+  &__input {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+    transition: border-bottom .35s;
+    font-size: 16px;
+
+    &:active,
+    &:focus {
+      outline: none;
+      border-bottom: 2px solid rgba(0,0,0,0.2);
+    }
+  }
+}
+
+.panel__sublist {
+  background-color: #f5f5f5;
+  display: none;
+}
+
+.panel__field__stats {
+  position:relative;
+  padding: 15px;
+  border-bottom: 1px solid rgba(0,0,0,0.07);
+}
+
+.panel__field__links {
+  position: absolute;
+  right: 20px;
+  bottom: 15px;
+}
+
+.editing-container {
+  display: inline-block;
+}
+
+.panel__field__stats:last-child {
+  border-bottom: none;
+}
+
+.panel__field__stat {
+  display: inline-block;
+}
+
+.stat--editing {
+  width: 80%;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+  transition: border-bottom .35s;
+}
+
+.stat--editing:active,
+.stat--editing:focus {
+  outline: none;
+  border-bottom: 2px solid rgba(0,0,0,0.2);
+}
+
+.margin-right-10 {
+  margin-right: 10px;
+}
+
+.column-one-third,
+.column-two-thirds {
+  display: inline-block;
+}
+
+.column-one-third {
+  width: 15%;
+  float: right;
+  text-align: right;
+}
+
+.column-two-thirds {
+  width: 30%;
+}
+
+.panel__field__column {
+  padding: 15px;
+}
+
+.fa {
+  cursor: pointer;
+}
+
+.panel-link {
+  color: #fff;
+}
+
+.panel__form {
+  padding: 20px 0;
+
+  fieldset {
+    margin: 0 auto;
+    width: 300px;
+  }
+
+  &__field {
+    display: block;
+
+    &__input {
+      display: block;
+      margin: 10px 0 20px;
+      width: 100%;
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid rgba(0,0,0,0.1);
+      transition: border-bottom .35s;
+      font-size: 16px;
+
+      &:active,
+      &:focus {
+        outline: none;
+        border-bottom: 2px solid rgba(0,0,0,0.2);
+      }
+    }
+  }
+
+  &__submit {
+    display: block;
+    background-color: #A3C47F;
+    color: #fff;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    margin: 0 auto 20px;
+    cursor: pointer;
+  }
+}

@@ -1,0 +1,42 @@
+.app {
+  height: 100%;
+}
+
+/* .App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 80px;
+} */
+
+/* .App-intro {
+  font-size: large;
+} */
+
+.right {
+  float: right;
+}
+
+.hidden {
+  display: none;
+}
+
+.margin-right-20 {
+  margin-right: 20px;
+}
+
+.green {
+  color: #A3C47F;
+}
+
+.red {
+  color: red;
+}
+
+.App {
+  position: relative;
+}
+
+
+@keyframes App-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
