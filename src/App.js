@@ -44,7 +44,7 @@ library.add(faBowlingBall);
 
 class App extends Component {
 
-  constructor(props) {
+  constructor(props) { 
     super(props);
     this.state = {
       // stats: this.props.stats,
@@ -532,14 +532,16 @@ class App extends Component {
 
     let stats;
     let currentUser;
-    if (this.state.currentUser.email !== '') {
+//     if (this.state.currentUser.email !== '') {
       currentUser = this.state.currentUser;
       sessionStorage.setItem('sessionUser', JSON.stringify(currentUser));
       console.log(currentUser);
+/*
     } else {
       currentUser = JSON.parse(sessionStorage.getItem('sessionUser'));
       console.log(currentUser);
     }
+*/
 
     return (
       <BrowserRouter>
