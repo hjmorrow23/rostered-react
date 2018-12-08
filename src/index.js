@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, combineReducers} from 'redux'
 import firebase from './firebase'
 import thunkMiddleware from 'redux-thunk'
-import { createStore } from 'redux';
+// import {createStore } from 'redux';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import './index.css';
 import rosteredData from './datasample.js';
