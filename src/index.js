@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { createStore, applyMiddleware, combineReducers} from 'redux'
+import { createStore, compose, applyMiddleware, combineReducers} from 'redux'
 import firebase from './firebase'
 import thunkMiddleware from 'redux-thunk'
 // import {createStore } from 'redux';
@@ -78,9 +78,11 @@ let stats;
 
     const store = createStore(
       Reducer,
-      window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
-      applyMiddleware(thunkMiddleware)
-    )
+      compose (
+        window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
+        applyMiddleware(thunkMiddleware)
+      )
+    );
 
     ReactDOM.render(
       <Provider store={store}>
