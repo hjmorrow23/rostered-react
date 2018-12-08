@@ -76,12 +76,11 @@ let stats;
       }
     }
 
+    const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
     const store = createStore(
       Reducer,
-      compose (
-        window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
-        applyMiddleware(thunkMiddleware)
-      )
+      composeEnhancer(applyMiddleware(thunk)),
     );
 
     ReactDOM.render(
