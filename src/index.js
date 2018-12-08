@@ -80,7 +80,7 @@ let stats;
 
     const store = createStore(
       Reducer,
-      composeEnhancer(applyMiddleware(thunk)),
+      composeEnhancer(applyMiddleware(thunkMiddleware)),
     );
 
     ReactDOM.render(
