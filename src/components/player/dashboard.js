@@ -39,23 +39,39 @@ class PlayerDashboardTable extends React.Component {
         let leagueName = league.name.replace(/\s/g, '');
         let leagueId = i;
 
-        this.props.currentUser.userLeagues.map((userLeague, i) => {
-          if(league.leagueId === userLeague.leagueId) {
-            return league.teams.map((team, i) => {
-              let teamName = team.name.replace(/\s/g, '');
-              let teamId = i;
+        if(this.props.currentUser.role !== "admin") {
+          this.props.currentUser.userLeagues.map((userLeague, i) => {
+            if(league.leagueId === userLeague.leagueId) {
+              return league.teams.map((team, i) => {
+                let teamName = team.name.replace(/\s/g, '');
+                let teamId = i;
 
-              if(team.players) {
-                return team.players.map((player, i) => {
-                  let playerName = player.name.replace(/\s/g, '');
-                  let playerId = i;
-                  myPlayers.push(player);
+                if(team.players) {
+                  return team.players.map((player, i) => {
+                    let playerName = player.name.replace(/\s/g, '');
+                    let playerId = i;
+                    myPlayers.push(player);
 
-                });
-              }
-            });
-          }
-        });
+                  });
+                }
+              });
+            }
+          });
+        } else {
+          return league.teams.map((team, i) => {
+            let teamName = team.name.replace(/\s/g, '');
+            let teamId = i;
+
+            if(team.players) {
+              return team.players.map((player, i) => {
+                let playerName = player.name.replace(/\s/g, '');
+                let playerId = i;
+                myPlayers.push(player);
+
+              });
+            }
+          });
+        }
       });
 
       if(myPlayers.length === 0) {
