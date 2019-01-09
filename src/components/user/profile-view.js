@@ -32,7 +32,7 @@ class UserProfileView extends React.Component {
             <div className="profile__left">
               <h1 className="profile__left__title"></h1>
               <div className="profile__left__image">
-                <img src={this.props.currentUser.photoUrl} />
+                <img src={this.props.currentUser.photoUrl} alt={this.props.currentUser.firstName} />
               </div>
             </div>
             <div className="profile__right">

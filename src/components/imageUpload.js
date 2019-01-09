@@ -58,7 +58,7 @@ class ImageUpload extends React.Component {
           {this.state.uploadedFileCloudinaryUrl === '' ? null :
           <div className="current-image">
             <p>{this.state.uploadedFile.name}</p>
-            <img src={this.state.uploadedFileCloudinaryUrl} />
+            <img src={this.state.uploadedFileCloudinaryUrl} alt={this.state.uploadedFile}/>
             <span className="image-icon"></span>
           </div>}
         </div>

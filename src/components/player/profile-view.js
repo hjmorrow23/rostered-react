@@ -63,7 +63,7 @@ class PlayerProfileView extends React.Component {
             <div className="profile__left">
               <h1 className="profile__left__title">{player.name}</h1>
               <div className="profile__left__image">
-                <img src={player.photoUrl} />
+                <img src={player.photoUrl} alt={player.name} />
               </div>
             </div>
             <div className="profile__right">
